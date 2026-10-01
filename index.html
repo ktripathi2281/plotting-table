@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Plotting Table · Kaustubh Tripathi</title>
-<meta name="description" content="Selected works laid out on a drafting table. Pan, zoom and read generated drawings of how each system works.">
-<meta name="theme-color" content="#131210">
+<meta name="description" content="Selected works on an endless drafting table. Drag in any direction and read generated drawings of how each system works.">
+<meta name="theme-color" content="#f3efe6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23131210'/%3E%3Cpath d='M5 22C12 22 14 10 27 10' fill='none' stroke='%23e5694a' stroke-width='2'/%3E%3Ccircle cx='5' cy='22' r='2.2' fill='%23ece6d9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
   (function () {
     var r = document.documentElement, t = null;
     try { t = localStorage.getItem("kt-theme"); } catch (e) {}
-    if (!t) t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    if (!t) t = "light"; // the table opens in daylight; Night is one tap away
     r.setAttribute("data-theme", t);
     r.className += " js";
   })();
@@ -23,95 +23,73 @@
 </head>
 <body>
 
-<div id="stage">
-  <canvas id="grid" aria-hidden="true"></canvas>
-  <div id="world"></div>
-  <canvas id="rulers" aria-hidden="true"></canvas>
+<div id="stage"><div id="world"></div></div>
+
+<a class="brand box" href="https://kauswhynot.vercel.app/" aria-label="Back to the portfolio">K<i>·</i>T<span class="mono sub">The Plotting Table</span></a>
+
+<nav class="tools box" aria-label="Tools">
+  <button type="button" data-act="index" aria-expanded="false" aria-controls="drawer">Index</button>
+  <button type="button" class="t-sound" data-act="sound" aria-pressed="false" title="Harp (M)">Sound <span data-sound-tx>off</span></button>
+  <button type="button" class="t-theme" data-act="theme" title="Day or night (D)"><span data-theme-tx>Day</span></button>
+</nav>
+
+<div class="show box" role="group" aria-label="Show">
+  <p class="mono lab">Show</p>
+  <button type="button" data-filter="all" aria-pressed="true">All</button>
+  <button type="button" data-filter="plate" aria-pressed="false">Plates</button>
+  <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
+  <button type="button" data-filter="credential" aria-pressed="false">Credentials</button>
+  <button type="button" data-filter="study" aria-pressed="false">Studies</button>
+  <button type="button" data-filter="note" aria-pressed="false">Notes</button>
 </div>
 
-<header class="bar top ui">
-  <a class="brand" href="https://kauswhynot.vercel.app/" aria-label="Back to the portfolio">K<i>·</i>T</a>
-  <p class="mono crumb"><span class="strong">The Plotting Table</span><span class="sub"> · selected works, 2024 – 2026</span></p>
-  <nav class="actions" aria-label="Tools">
-    <button type="button" class="tool" data-act="index" aria-expanded="false" aria-controls="drawer"><span class="ic" aria-hidden="true">≡</span><span class="tx">Index</span></button>
-    <span class="pen-only" hidden>
-      <button type="button" class="tool" data-act="undo" aria-label="Undo the last line"><span class="ic" aria-hidden="true">↶</span><span class="tx">Undo</span></button>
-      <button type="button" class="tool" data-act="clear" aria-label="Clear all lines"><span class="ic" aria-hidden="true">✕</span><span class="tx">Clear</span></button>
-    </span>
-    <button type="button" class="tool" data-act="pen" aria-pressed="false" title="Draw your own red line (P)"><span class="ic" aria-hidden="true">✎</span><span class="tx">Pen</span></button>
-    <button type="button" class="tool" data-act="sound" aria-pressed="false" title="Harp (M)"><span class="ic" aria-hidden="true">♪</span><span class="tx" id="sound-tx">Sound off</span></button>
-    <span class="sep" aria-hidden="true"></span>
-    <button type="button" class="tool" data-act="theme" title="Switch between day and night (D)"><span class="ic" aria-hidden="true">◐</span><span class="tx" id="theme-tx">Day</span></button>
-  </nav>
-</header>
+<form class="find box" id="find" role="search" autocomplete="off">
+  <ol class="hits" id="hits" hidden></ol>
+  <label class="mono lab" for="q">Find</label>
+  <input id="q" name="q" type="text" placeholder="agents, maps, guardrails…" spellcheck="false" enterkeyhint="search" aria-describedby="find-status">
+  <kbd aria-hidden="true">/</kbd>
+  <span class="mono status" id="find-status" aria-live="polite"></span>
+</form>
 
-<p class="hint mono ui" id="hint">Drag to pan <i>·</i> Ctrl or ⌘ + scroll to zoom <i>·</i> Click a sheet to read it</p>
-
-<div class="keyplan ui" id="keyplan" aria-hidden="true">
-  <canvas id="kp"></canvas>
-  <span class="mono kp-lab">Key plan</span>
-</div>
+<p class="hint mono" id="hint"><span class="h-desk">Drag to explore <i>·</i> Ctrl or ⌘ + scroll to zoom</span><span class="h-touch">Drag to explore <i>·</i> pinch to zoom</span></p>
 
 <div id="tip" class="tip" role="status" hidden></div>
-<div id="beacon" class="beacon mono" hidden aria-hidden="true"><span class="arr">→</span><span class="bl"></span></div>
 <p id="live" class="sr" role="status" aria-live="polite"></p>
 
-<aside id="panel" class="panel ui" aria-labelledby="panel-title" hidden>
+<aside id="panel" class="panel" aria-labelledby="panel-title" hidden>
   <div class="panel-bar">
-    <button type="button" class="tool" data-act="prev" aria-label="Previous sheet">← Prev</button>
+    <button type="button" data-act="prev" aria-label="Previous sheet">← Prev</button>
     <span class="mono count" id="p-count"></span>
-    <button type="button" class="tool" data-act="next" aria-label="Next sheet">Next →</button>
-    <button type="button" class="tool close" data-act="close" aria-label="Close the wall label">Close <span aria-hidden="true">×</span></button>
+    <button type="button" data-act="next" aria-label="Next sheet">Next →</button>
+    <button type="button" class="close" data-act="close" aria-label="Close the wall label">Close <span aria-hidden="true">×</span></button>
   </div>
   <div class="panel-body" id="p-body"></div>
 </aside>
 
-<aside id="drawer" class="drawer ui" aria-label="Index of sheets" hidden>
+<aside id="drawer" class="drawer" aria-label="Index of sheets" hidden>
   <div class="drawer-head">
-    <p class="mono">Catalogue <span id="d-count"></span></p>
-    <button type="button" class="tool" data-act="index-close">Close <span aria-hidden="true">×</span></button>
+    <p class="mono">Index <span id="d-count"></span></p>
+    <button type="button" data-act="index-close">Close <span aria-hidden="true">×</span></button>
   </div>
-  <ol class="d-list" id="d-list"></ol>
-  <div class="d-keys mono">
-    <p class="k-title">Keys</p>
-    <dl>
-      <div><dt>Arrows</dt><dd>pan</dd></div>
-      <div><dt>+ − 0</dt><dd>zoom, fit all</dd></div>
-      <div><dt>1</dt><dd>back to the start</dd></div>
-      <div><dt>/</dt><dd>find</dd></div>
-      <div><dt>[ ]</dt><dd>previous, next sheet</dd></div>
-      <div><dt>P</dt><dd>pen</dd></div>
-      <div><dt>M</dt><dd>sound</dd></div>
-      <div><dt>D</dt><dd>day, night</dd></div>
-      <div><dt>Esc</dt><dd>close, back</dd></div>
-    </dl>
-  </div>
-</aside>
-
-<footer class="bar bottom ui">
-  <div class="show" role="group" aria-label="Show">
-    <span class="mono lab">Show</span>
-    <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
-    <button type="button" class="chip" data-filter="plate" aria-pressed="false">Plates</button>
-    <button type="button" class="chip" data-filter="essay" aria-pressed="false">Essays</button>
-    <button type="button" class="chip" data-filter="credential" aria-pressed="false">Credentials</button>
-    <button type="button" class="chip" data-filter="note" aria-pressed="false">Notes</button>
-  </div>
-  <form class="find" id="find" role="search" autocomplete="off">
-    <ol class="hits" id="hits" hidden></ol>
-    <label class="mono lab" for="q">Find</label>
-    <input id="q" name="q" type="text" placeholder="agents, maps, guardrails…" spellcheck="false" enterkeyhint="search" aria-describedby="find-status">
-    <kbd aria-hidden="true">/</kbd>
-    <span class="mono status" id="find-status" aria-live="polite"></span>
+  <form class="d-find" id="find-m" role="search" autocomplete="off">
+    <label class="mono lab" for="q-m">Find</label>
+    <input id="q-m" type="text" placeholder="agents, maps, guardrails…" spellcheck="false" enterkeyhint="search">
   </form>
-  <div class="meter">
-    <span class="mono read" id="readout">X 0000 · Y 0000</span>
-    <span class="mono zoom" id="zoomlab">×0.50</span>
-    <button type="button" class="tool sq" data-act="zoom-out" aria-label="Zoom out">−</button>
-    <button type="button" class="tool sq" data-act="zoom-in" aria-label="Zoom in">+</button>
-    <button type="button" class="tool" data-act="fit" title="See the whole table (0)">Fit</button>
+  <ol class="d-list" id="d-list"></ol>
+  <div class="d-tools">
+    <button type="button" data-act="sound" aria-pressed="false">Sound <span data-sound-tx>off</span></button>
+    <button type="button" data-act="theme"><span data-theme-tx>Day</span></button>
   </div>
-</footer>
+  <dl class="d-keys mono">
+    <div><dt>Arrows</dt><dd>pan</dd></div>
+    <div><dt>+ − 0</dt><dd>zoom</dd></div>
+    <div><dt>1</dt><dd>back to the start</dd></div>
+    <div><dt>/</dt><dd>find</dd></div>
+    <div><dt>[ ]</dt><dd>previous, next</dd></div>
+    <div><dt>M D I</dt><dd>sound, day, index</dd></div>
+    <div><dt>Esc</dt><dd>close, back</dd></div>
+  </dl>
+</aside>
 
 <noscript><p class="nojs">The Plotting Table needs JavaScript. The same work, as a page: <a href="https://kauswhynot.vercel.app/">kauswhynot.vercel.app</a>.</p></noscript>
 

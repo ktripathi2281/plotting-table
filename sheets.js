@@ -1,4 +1,5 @@
-// Markup for each kind of sheet on the table, and for the wall label that opens beside it.
+// Markup for the sheets on the table, and for the wall label that opens beside one.
+// Every sheet is the same thing: a framed mat with one idea in it, and a caption underneath.
 window.Sheets = (function () {
   "use strict";
   var T = window.TABLE, PL = window.Plates, PR = T.profile;
@@ -6,79 +7,58 @@ window.Sheets = (function () {
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function ext(href, label) { return '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + ' <span aria-hidden="true">↗</span></a>'; }
 
-  function drawingFigure(s) {
+  var REPLOT = '<button type="button" class="replot mono" data-act="replot" aria-label="Replot this drawing">Replot <span aria-hidden="true">↺</span></button>';
+
+  // The caption is a small label stuck on the print: the number, then the name.
+  function wall(s) {
+    var w = s.wall || { no: s.no, nm: s.title };
+    return '<figcaption class="wall"><span class="no mono">' + esc(w.no) + '</span><span class="nm">' + esc(w.nm) + "</span></figcaption>";
+  }
+  function figure(s, cls, mat, extra) {
+    return '<figure class="plate ' + cls + '"><div class="mat">' + mat + "</div>" + wall(s) + (extra || "") + "</figure>";
+  }
+  function drawing(s) {
     var d = PL.make(s.drawing);
-    return '<figure class="plot-figure">' +
-      '<div class="mat"><div class="plot" data-plate="' + s.drawing + '">' +
-      '<svg viewBox="' + d.viewBox + '" role="img" aria-label="' + esc(d.label) + '" preserveAspectRatio="xMidYMid meet">' + d.inner + "</svg></div></div>" +
-      '<figcaption class="wall"><span class="no mono">' + esc(s.no) + '</span><span class="nm">' + esc(s.title) + '</span><span class="kk">' + esc(s.kicker) + "</span></figcaption></figure>" +
-      '<button type="button" class="replot mono" data-act="replot" aria-label="Replot this drawing">Replot <span aria-hidden="true">↺</span></button>';
+    return figure(s, "m-draw",
+      '<div class="plot" data-plate="' + s.drawing + '"><svg viewBox="' + d.viewBox + '" role="img" aria-label="' + esc(d.label) + '" preserveAspectRatio="xMidYMid meet">' + d.inner + "</svg></div>",
+      REPLOT);
   }
 
   /* ------------------------------------------------------------ sheets on the table */
   var render = {
     title: function (s) {
-      return '<div class="card title-card">' +
+      return figure(s, "m-title",
         '<p class="mono kick">Selected works · 2024 – 2026</p>' +
-        '<h1 class="name"><span>' + esc(PR.first) + "</span><em>" + esc(PR.last) + "</em></h1>" +
+        '<p class="name"><span>' + esc(PR.first) + "</span><em>" + esc(PR.last) + "</em></p>" +
         '<p class="lede">' + esc(PR.lede) + "</p>" +
-        '<dl class="facts">' +
-        "<div><dt>Practice</dt><dd>" + esc(PR.role) + "</dd></div>" +
-        "<div><dt>Based in</dt><dd>" + esc(PR.location) + "</dd></div>" +
-        "<div><dt>Currently</dt><dd>" + esc(PR.current) + "</dd></div>" +
-        '<div><dt>Status</dt><dd class="status"><i aria-hidden="true"></i>' + esc(PR.availability) + "</dd></div>" +
-        "</dl>" +
-        '<div class="tblock mono" aria-hidden="true"><span>Sheet 1 of 1</span><span>Scale 1 : 1</span><span>Drawn by K·T</span><span>Rev. 2026.10</span></div>' +
-        "</div>";
+        '<svg class="pen-line" viewBox="0 0 420 46" aria-hidden="true"><path d="M6 30C70 6 118 46 190 22S322 8 414 28" pathLength="1"/></svg>');
     },
-
-    plate: drawingFigure,
-    timeline: drawingFigure,
-
-    essay: function (s) {
-      return '<div class="card essay">' +
-        '<p class="mono red">' + esc(s.no) + " · Essay</p>" +
-        '<h3 class="e-title">' + esc(s.title) + "</h3>" +
-        '<p class="e-sub">' + esc(s.kicker) + "</p>" +
-        '<p class="e-body">' + esc(s.excerpt) + "</p>" +
-        '<p class="e-foot mono">On ' + esc(s.project) + (s.collaborator ? " · with " + esc(s.collaborator) : "") + "</p>" +
-        "</div>";
-    },
+    plate: drawing,
+    timeline: drawing,
 
     statement: function (s) {
-      return '<div class="card statement">' +
-        '<p class="mono kick">' + esc(s.no) + " · " + esc(s.kicker) + "</p>" +
-        '<blockquote class="pull">' + esc(s.pull) + "</blockquote>" +
-        '<p class="s-body">' + esc(s.body[0]) + "</p>" +
-        "</div>";
+      return figure(s, "m-statement", '<blockquote class="m-pull">' + esc(s.pull) + "</blockquote>");
     },
 
-    credential: function (s) {
-      var d = PL.seal(s.id, s.inscription, s.badge, s.pattern);
-      return '<div class="card cert">' +
-        '<div class="plot seal" data-plate="seal-' + s.id + '"><svg viewBox="' + d.viewBox + '" role="img" aria-label="' + esc(d.label) + '">' + d.inner + "</svg></div>" +
-        '<p class="mono red cert-no">' + esc(s.no) + "</p>" +
-        '<h3 class="cert-name">' + esc(s.title) + "</h3>" +
-        '<p class="cert-level">' + esc(s.kicker) + "</p>" +
-        '<p class="cert-dates mono">Issued ' + esc(s.issued) + "</p>" +
-        "</div>";
+    essay: function (s) {
+      return figure(s, "m-essay", '<p class="m-lead">' + esc(s.lead) + '</p><p class="m-by mono">On ' + esc(s.project) + "</p>");
+    },
+
+    credential: function (s, uid) {
+      var d = PL.seal(s.id + "-" + uid, s.inscription, s.badge, s.pattern);
+      return figure(s, "m-seal",
+        '<div class="plot seal" data-plate="seal-' + s.id + '"><svg viewBox="' + d.viewBox + '" role="img" aria-label="' + esc(d.label) + '">' + d.inner + "</svg></div>");
     },
 
     specimen: function (s) {
-      return '<div class="card specimen">' +
-        '<p class="mono kick">' + esc(s.title) + "</p>" +
-        "<dl>" + s.rows.map(function (r) { return "<div><dt class=\"mono\">" + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd></div>"; }).join("") + "</dl>" +
-        "</div>";
+      return figure(s, "m-spec",
+        "<dl>" + s.glance.map(function (r) { return '<div><dt class="mono">' + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd></div>"; }).join("") + "</dl>");
     },
 
     gate: function (s) {
-      return '<div class="card gatecard">' +
-        '<p class="mono red">' + esc(s.no) + " · " + esc(s.kicker) + "</p>" +
-        '<h3 class="g-title">' + esc(s.title) + "</h3>" +
-        '<p class="g-text">' + esc(s.text) + "</p>" +
-        '<a class="g-mail" href="mailto:' + esc(PR.email) + '">' + esc(PR.email) + "</a>" +
-        '<p class="g-links mono">' + ext(PR.linkedin, "LinkedIn") + ext(PR.github, "GitHub") + ext(PR.resume, "Résumé, PDF") + "</p>" +
-        "</div>";
+      return figure(s, "m-gate",
+        '<p class="mono m-small">Write to</p><a class="m-mail" href="mailto:' + esc(PR.email) + '">' + esc(PR.email) + "</a>" +
+        '<p class="m-links mono">' + ext(PR.linkedin, "LinkedIn") + ext(PR.github, "GitHub") + ext(PR.resume, "Résumé") + "</p>");
     }
   };
 
@@ -106,12 +86,11 @@ window.Sheets = (function () {
       return head(s, "Selected works") +
         '<p class="p-desc">' + esc(PR.lede) + "</p>" +
         metaList([["Practice", PR.role], ["Based in", PR.location], ["Currently", PR.current], ["Status", PR.availability]]) +
-        '<h3 class="mono p-h">How the table works</h3>' +
+        '<h3 class="mono p-h">Finding your way</h3>' +
         '<ul class="p-notes how">' +
-        "<li>Drag to pan. Scroll or use the arrow keys. Hold Ctrl or ⌘ and scroll, or pinch, to zoom.</li>" +
+        "<li>The table has no edge. Drag in any direction, or scroll. The same sheets come round again.</li>" +
         "<li>Click a sheet to read its wall label here. Hover a drawing to read its parts.</li>" +
-        "<li>Follow the red line from sheet to sheet. It is the only way out of the drawing.</li>" +
-        "<li>Switch on Pen to leave your own red line. Press <kbd>/</kbd> to find something.</li></ul>" +
+        "<li>Pinch, or hold Ctrl or ⌘ and scroll, to zoom. Press <kbd>/</kbd> to find something.</li></ul>" +
         '<p class="p-links mono">' + ext(PR.linkedin, "LinkedIn") + ext(PR.github, "GitHub") + ext(PR.resume, "Résumé, PDF") + ext(PR.portfolio, "Portfolio") + "</p>";
     },
 
@@ -147,7 +126,7 @@ window.Sheets = (function () {
     timeline: function (s) {
       return head(s) +
         s.entries.map(function (e) {
-          return '<div class="chrono"><p class="mono red">' + esc(e.year) + "</p><p class=\"p-desc tight\">" + esc(e.text) + "</p>" + (e.detail ? '<p class="p-note">' + esc(e.detail) + "</p>" : "") + "</div>";
+          return '<div class="chrono"><p class="mono red">' + esc(e.year) + '</p><p class="p-desc tight">' + esc(e.text) + "</p>" + (e.detail ? '<p class="p-note">' + esc(e.detail) + "</p>" : "") + "</div>";
         }).join("") +
         reading(s);
     },
@@ -165,7 +144,7 @@ window.Sheets = (function () {
   };
 
   return {
-    render: function (s) { return (render[s.kind] || render.plate)(s); },
+    render: function (s, uid) { return (render[s.kind] || render.plate)(s, uid); },
     panel: function (s) { return (panel[s.kind] || panel.plate)(s); },
     esc: esc
   };

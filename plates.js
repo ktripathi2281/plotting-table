@@ -1,6 +1,8 @@
 // Generated drawings. Each one encodes how a project works, is seeded so it draws the same every
-// time, and "plots" itself like a pen plotter the first time it comes into view.
-// The five plates and the seal are ported from the portfolio's React components (src/art/*).
+// time, and "plots" itself like a pen plotter the first time it comes into view. Once plotted, a
+// drawing keeps a little life going: packets travel its routes, rings ping, a comet runs through
+// the tangle. The five plates and the seal are ported from the portfolio's React components
+// (src/art/*); the "life" layers and the studies are new.
 window.Plates = (function () {
   "use strict";
 
@@ -75,6 +77,29 @@ window.Plates = (function () {
     };
   }
 
+  /* ------------------------------------------------------------ life: what keeps moving after a drawing is plotted */
+  // A dot that travels along path d, over `dur` seconds, forever. With o.rest (0-1) it arrives at that
+  // fraction of the trip and waits at the end before starting over.
+  function packet(d, dur, begin, o) {
+    o = o || {};
+    var motion = '<animateMotion dur="' + dur + 's" begin="' + begin + 's" repeatCount="indefinite" path="' + d + '"' +
+      (o.rest ? ' calcMode="linear" keyPoints="0;1;1" keyTimes="0;' + o.rest + ';1"' : "") + "/>";
+    var fade = '<animate attributeName="opacity" values="0;1;1;0" keyTimes="' + (o.rest ? "0;.05;.96;1" : "0;.05;.92;1") + '" dur="' + dur + 's" begin="' + begin + 's" repeatCount="indefinite"/>';
+    return '<circle r="' + (o.r || 2.4) + '" class="' + (o.cls || "fill-ink") + '" opacity="0">' + motion + fade + "</circle>";
+  }
+  // A ring that grows and fades, over and over, like a ping.
+  function ping(cx, cy, r0, r1, dur, begin, cls) {
+    return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r0 + '" class="ping ' + (cls || "") + '" opacity="0">' +
+      '<animate attributeName="r" values="' + r0 + ";" + r1 + '" dur="' + dur + 's" begin="' + begin + 's" repeatCount="indefinite"/>' +
+      '<animate attributeName="opacity" values=".8;0" dur="' + dur + 's" begin="' + begin + 's" repeatCount="indefinite"/></circle>';
+  }
+  // A short bright segment that runs along a path, forever.
+  function comet(d, dur, cls) { return '<path d="' + d + '" class="comet ' + (cls || "") + '" pathLength="1" style="animation-duration:' + dur + 's"/>'; }
+  // Things that turn: the group spins about (cx, cy), in `dur` seconds a turn.
+  function spin(inner, cx, cy, dur, rev) { return '<g class="spin' + (rev ? " rev" : "") + '" style="transform-origin:' + cx + "px " + cy + "px;animation-duration:" + dur + 's">' + inner + "</g>"; }
+  // The whole life layer appears once the plotting is done.
+  function alive(inner, delay) { return '<g class="life fade"' + sty(delay) + ">" + inner + "</g>"; }
+
   /* ============================================================ Plate 0 · Model, contained */
   function model() {
     var cx = 240, cy = 250, R = 150;
@@ -99,6 +124,7 @@ window.Plates = (function () {
       var p1 = add([cx, cy], dir(ang, R + 16)), p2 = add([cx, cy], dir(ang, R + (long ? 28 : 21)));
       ticks += "M" + P(p1) + "L" + P(p2);
     }
+    var scribble = line(pts);
     var parts = {
       model: { name: "The model", text: "4,000 random steps. Capable, but never fully predictable." },
       boundary: { name: "The boundary", text: "Schemas, validation and guardrails. Fixed, measured and deterministic." },
@@ -107,11 +133,11 @@ window.Plates = (function () {
     var part = mkPart(parts), gateY = cy + R + 8, start = cy + R * 0.55;
     var inner =
       '<g class="bg">' + rct(18, 18, 444, 524, "ink-faint", 1, 0, 2.2) + lbl(30, 36, "pl. 0", { d: 0.4 }) + "</g>" +
-      part("model", '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" class="hit-area"/>' + pth(line(pts), "ink", 0.45, 0.2, 6.5)) +
+      part("model", '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" class="hit-area"/>' + pth(scribble, "ink", 0.45, 0.2, 6.5)) +
       part("boundary",
         '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R + 18) + '" class="hit-stroke" stroke-width="26"/>' +
         cir(cx, cy, R + 8, "ink", 0.9, 0.6, 2.4, ' transform="rotate(90 ' + cx + " " + cy + ')"') +
-        pth(ticks, "ink-soft", 0.7, 1.2, 3)) +
+        spin(pth(ticks, "ink-soft", 0.7, 1.2, 3), cx, cy, 180)) +
       part("output",
         hitL("M" + cx + " " + start + "L" + cx + " 500", 16) +
         dot(cx, start, 3.2, "red", 5.6) +
@@ -119,9 +145,96 @@ window.Plates = (function () {
         pth("M" + (cx - 9) + " " + gateY + "L" + (cx + 9) + " " + gateY, "red", 1.1, 6.2, 0.4) +
         dot(cx, 500, 2.6, "red", 7.2) +
         lbl(cx + 10, 503, "output", { red: true, d: 7.3 }));
+    inner += alive(
+      comet(scribble, 34) +
+      packet("M" + cx + " " + (start + 3.2) + "L" + cx + " 500", 2.6, 0.4, { cls: "fill-red", r: 2.6 }) +
+      ping(cx, 500, 2.6, 11, 2.6, 0.4, "red"), 7.4);
     return {
       viewBox: "0 0 480 560", parts: parts, inner: inner,
       label: "Generated drawing: a single tangled line held inside a precise circular boundary, with one red line leaving through a gate at the bottom."
+    };
+  }
+
+  /* ============================================================ Studies 0.1, 0.3, 0.4 · the same wanderer, other fences */
+  // shape: "square" | "hex" | "open". The line is steered away from the edge and stopped at it.
+  function wander(o) {
+    var shape = o.shape, steps = o.steps, cx = 240, cy = 240, R = 160, ring = R + 12;
+    var r = rng(o.seed), n1 = noise1(r), n2 = noise1(r);
+    var x = cx, y = cy, a = r() * TAU, pts = [[x, y]];
+    function nd(px, py) { // 1 when the point is on the fence
+      var dx = px - cx, dy = py - cy;
+      if (shape === "square") return Math.max(Math.abs(dx), Math.abs(dy)) / R;
+      return Math.max(Math.abs(dy), Math.abs(dx) * 0.866 + Math.abs(dy) * 0.5) / (R * 0.866);
+    }
+    for (var i = 0; i < steps; i++) {
+      a += n1(i * 0.007) * 0.075 + n2(i * 0.045) * 0.06;
+      if (shape !== "open") {
+        var d1 = nd(x, y), edge = 0.86;
+        if (d1 > edge) a += angleDiff(Math.atan2(cy - y, cx - x), a) * 0.09 * Math.min(1, (d1 - edge) / (1 - edge));
+      }
+      x += Math.cos(a) * 2; y += Math.sin(a) * 2;
+      if (shape !== "open") { var d2 = nd(x, y); if (d2 > 1) { x = cx + (x - cx) / d2; y = cy + (y - cy) / d2; } }
+      pts.push([x, y]);
+    }
+    var scribble = line(pts);
+
+    // the fence, as a polygon, with a tick along every edge
+    var poly = [];
+    if (shape === "square") poly = [[cx - ring, cy - ring], [cx + ring, cy - ring], [cx + ring, cy + ring], [cx - ring, cy + ring]];
+    if (shape === "hex") { var rr = ring * 1.02; for (var v = 0; v < 6; v++) poly.push([cx + rr * Math.cos(v * Math.PI / 3), cy + rr * Math.sin(v * Math.PI / 3)]); }
+    var fence = "", ticks = "";
+    if (poly.length) {
+      fence = "M" + poly.map(P).join("L") + "Z";
+      poly.forEach(function (p0, ei) {
+        var p1 = poly[(ei + 1) % poly.length], len = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]);
+        var ux = (p1[0] - p0[0]) / len, uy = (p1[1] - p0[1]) / len, nx = uy, ny = -ux;
+        var mx = (p0[0] + p1[0]) / 2 - cx, my = (p0[1] + p1[1]) / 2 - cy;
+        if (nx * mx + ny * my < 0) { nx = -nx; ny = -ny; }
+        for (var t = 6, c = 0; t < len; t += 12, c++) {
+          var bx = p0[0] + ux * t, by = p0[1] + uy * t, tl = c % 5 === 0 ? 14 : 8;
+          ticks += "M" + P([bx, by]) + "L" + P([bx + nx * tl, by + ny * tl]);
+        }
+      });
+    }
+    var bottom = shape === "square" ? cy + ring : cy + ring * 1.02 * 0.866;
+    var start = cy + R * 0.5, endY = Math.min(bottom + 40, 462);
+
+    var parts = {
+      model: { name: shape === "open" ? "The model, unfenced" : "The model", text: shape === "open" ? "The same random walk, with nothing to turn it back." : "The same 4,000 random steps as Plate 0. Capable, never fully predictable." }
+    };
+    if (shape !== "open") {
+      parts.boundary = { name: "The boundary", text: shape === "square" ? "A square fence. The corners are where the line is steered hardest." : "A hexagonal fence. Six corners, none sharp enough to catch the line." };
+      parts.output = { name: "The output", text: "Still the only way out, and still only through the gate." };
+    } else {
+      parts.ring = { name: "Where the fence would be", text: "A dashed ring, drawn only so you can see what is missing." };
+    }
+    var part = mkPart(parts);
+    var inner = '<g class="bg">' + rct(18, 18, 444, 444, "ink-faint", 1, 0, 2.2) + lbl(30, 36, o.tag, { d: 0.4 }) + "</g>";
+    inner += part("model", '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" class="hit-area"/>' + pth(scribble, "ink", 0.45, 0.2, o.dur));
+    if (shape === "open") {
+      inner += part("ring",
+        '<circle cx="' + cx + '" cy="' + cy + '" r="' + ring + '" class="hit-stroke" stroke-width="22"/>' +
+        '<circle cx="' + cx + '" cy="' + cy + '" r="' + ring + '" class="ring-dash fade"' + sty(1) + "/>" +
+        lbl(cx, cy + ring + 26, "no fence", { anchor: "middle", d: 2 }));
+    } else {
+      inner += part("boundary", hitL(fence, 26) + pth(fence, "ink", 0.9, 0.6, 2.4) + spin(pth(ticks, "ink-soft", 0.7, 1.2, 3), cx, cy, 200, shape === "hex"));
+      inner += part("output",
+        hitL("M" + cx + " " + start + "L" + cx + " " + endY, 16) +
+        dot(cx, start, 3, "red", o.dur - 0.9) +
+        pth("M" + cx + " " + (start + 3) + "L" + cx + " " + endY, "red", 1.1, o.dur - 0.7, 1.4) +
+        pth("M" + (cx - 9) + " " + bottom + "L" + (cx + 9) + " " + bottom, "red", 1.1, o.dur - 0.3, 0.4) +
+        dot(cx, endY, 2.6, "red", o.dur + 0.6) +
+        lbl(cx + 10, endY + 3, "output", { red: true, d: o.dur + 0.7 }));
+    }
+    inner += alive(
+      comet(scribble, o.comet) +
+      (shape === "open" ? "" : packet("M" + cx + " " + (start + 3) + "L" + cx + " " + endY, 2.4, 0.5, { cls: "fill-red", r: 2.5 })),
+      o.dur + 0.8);
+    return {
+      viewBox: "0 0 480 480", parts: parts, inner: inner,
+      label: shape === "open"
+        ? "A single tangled line that wanders out of the drawing, with a dashed ring showing where a boundary would have been."
+        : "A single tangled line held inside a " + (shape === "square" ? "square" : "hexagonal") + " boundary, with one red line leaving through a gate at the bottom."
     };
   }
 
@@ -175,6 +288,11 @@ window.Plates = (function () {
       dot(104, 356, 2.6, "red", 3.4) +
       lbl(94, 359, "rules", { anchor: "end", red: true, d: 3.4 }) +
       pth(rulesD, "red", 1.1, 3.6, 2.2));
+    // packets travel every route into the case file; a red one runs the rules line
+    var life = "";
+    ROUTES.forEach(function (_, i) { life += packet(routeD(ys[i]) + "L552 190", 3.4, 0.55 * i, { r: 2.4 }); });
+    life += packet(rulesD, 4.4, 1.2, { cls: "fill-red", r: 2.7 });
+    inner += alive(life, 5.6);
     return {
       viewBox: "0 0 600 400", parts: parts, inner: inner,
       label: "Six lines, one per model route, converge into a single line with ten tick marks ending at a case file. A red line runs parallel to it the whole way."
@@ -242,6 +360,10 @@ window.Plates = (function () {
         lbl(x, 384, k + 1, { anchor: "middle", red: true, d: 1.7 + k * 0.42 }),
         { lit: ["log"], focus: false });
     });
+    // the planner makes its eight trips in turn; the log is written as it goes
+    inner += alive(
+      packet(petals.join(""), 15, 0, { r: 3.2 }) +
+      packet("M120 361L480 361", 15, 0, { cls: "fill-red", r: 2.6 }), 5);
     return {
       viewBox: "0 0 600 400", parts: parts, inner: inner,
       label: "Eight looping paths leave a centre point and return, each passing through one of four tool nodes. Below, a red line records eight ticks, one per iteration."
@@ -299,9 +421,11 @@ window.Plates = (function () {
       if (i === you || i === match) return "";
       return hitD(p[0], p[1], 7) + dot(p[0], p[1], 2.4, "soft", 0.1 + (i % 10) * 0.06);
     }).join(""));
+    var mutualArcs = [];
     edges.forEach(function (e, i) {
       var A = pts[e.a], B = pts[e.b], d = 1.2 + i * 0.14;
       if (e.kind === "mutual") {
+        mutualArcs.push(e.a < e.b ? arc(A, B, 0.2) : arc(B, A, 0.2));
         inner += part("mutual",
           hitL(arc(A, B, 0.2), 8) + hitL(arc(B, A, 0.2), 8) +
           pth(arc(A, B, 0.2), "ink", 0.8, d, 1) + pth(arc(B, A, 0.2), "ink", 0.8, d + 0.1, 1),
@@ -320,6 +444,11 @@ window.Plates = (function () {
     inner += part("you",
       hitD(Y[0], Y[1], 9) + dot(Y[0], Y[1], 4, "ink", 0.2) + lbl(Y[0] + 9, Y[1] - 9, "you", { d: 0.4 }),
       { lit: ["best"], focus: false });
+    // a ping goes out from you; matches trade across the mutual arcs; the best one runs red
+    var life = ping(Y[0], Y[1], 4, 150, 4.8, 0, "") + ping(Y[0], Y[1], 4, 150, 4.8, 1.6, "") + ping(Y[0], Y[1], 4, 150, 4.8, 3.2, "");
+    mutualArcs.slice(0, 7).forEach(function (d, i) { life += packet(d, 2.6 + (i % 3) * 0.7, i * 0.55, { r: 2.1 }); });
+    life += packet(arc(Y, M, 0.22), 2.4, 0.2, { cls: "fill-red", r: 2.8 }) + packet(arc(M, Y, 0.22), 2.4, 1.4, { cls: "fill-red", r: 2.8 });
+    inner += alive(life, 5.6);
     return {
       viewBox: "0 0 600 400", parts: parts, inner: inner,
       label: "Scattered points joined by curves: lens shapes for mutual matches, single arcs for one-way interest. Concentric rings surround one point, and its nearest mutual match is drawn in red."
@@ -372,13 +501,18 @@ window.Plates = (function () {
         return cir(sos[0], sos[1], rad, "red", 0.9, 3.4 + i * 0.25, 0.9, ' stroke-opacity="' + (1 - i * 0.28) + '"');
       }).join("") +
       lbl(sos[0] + 36, sos[1] + 3, "SOS", { red: true, d: 4.2 }));
+    // the riders keep riding; the one who stopped keeps calling
+    var life = "";
+    trails.forEach(function (tr, k) { life += packet(tr.d, 9 + k * 1.3, k * 1.1, { r: 2.9, rest: 0.82, cls: k === SOS ? "fill-red" : "fill-ink" }); });
+    life += ping(sos[0], sos[1], 5, 38, 2.4, 0, "red") + ping(sos[0], sos[1], 5, 38, 2.4, 0.8, "red") + ping(sos[0], sos[1], 5, 38, 2.4, 1.6, "red");
+    inner += alive(life, 5);
     return {
       viewBox: "0 0 600 400", parts: parts, inner: inner,
       label: "Five wandering trails cross a faint map grid toward a shared checkpoint. One trail stops early, marked by red concentric rings."
     };
   }
 
-  /* ============================================================ § 4 · Chronology (new for the table) */
+  /* ============================================================ § 4 · Chronology */
   // A timeline in the same language: a baseline, a tick a month, one red bar for the present.
   function chronology() {
     var X0 = 40, SPAN = 520, Y0 = 2020, YEARS = 7, BASE = 150;
@@ -415,32 +549,56 @@ window.Plates = (function () {
       pth("M" + c1 + " " + (BASE - 10) + "L" + c1 + " 90", "red", 0.8, 3.6, 0.7) +
       dot(c0, 76, 2.4, "red", 4.2) + dot(c1, 90, 2.4, "red", 4.4) +
       lbl(c0 - 9, 73, "Claude certified × 2", { anchor: "end", red: true, d: 4.6 }));
+    // a playhead walks the seven years; the certificates ping
+    inner += alive(packet(base, 14, 0, { r: 3.2 }) + ping(c0, 76, 2.4, 14, 2.6, 0, "red") + ping(c0, 76, 2.4, 14, 2.6, 1.3, "red"), 5);
     return {
       viewBox: "0 0 600 250", parts: parts, inner: inner,
       label: "A timeline from 2020 to 2026 with a tick for every month. A bracket marks four years of study, and a red bar marks the current role. Two red marks sit at September 2026."
     };
   }
 
+  /* ============================================================ Study 0.2 · Two rosettes */
+  // Interlaced sine rings (guilloché). Each copy is phase-shifted so the crossings weave a lattice.
+  function bandPath(cx, cy, r0, amp, waves, copies, amp2, waves2) {
+    var out = [];
+    for (var k = 0; k < copies; k++) {
+      var phase = (TAU * k) / copies, pts = [];
+      for (var i = 0; i <= 720; i++) {
+        var a = (i / 720) * TAU, rr = r0 + amp * Math.sin(waves * a + phase) + (amp2 || 0) * Math.sin((waves2 || 0) * a);
+        pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+      }
+      out.push(line(pts));
+    }
+    return out;
+  }
+  function rosette() {
+    var C = 240;
+    var parts = {
+      inner: { name: "The inner band", text: "Fourteen waves round the ring, six copies, each shifted so they weave." },
+      outer: { name: "The outer band", text: "Eleven waves. Where the two bands disagree you see the moiré." }
+    };
+    var part = mkPart(parts);
+    var A = bandPath(C, C, 108, 22, 14, 6), B = bandPath(C, C, 112, 24, 11, 7);
+    var inner = '<g class="bg">' + rct(18, 18, 444, 444, "ink-faint", 1, 0, 2.2) + lbl(30, 36, "st. 0.2", { d: 0.4 }) + "</g>";
+    inner += part("inner", spin(A.map(function (d, i) { return hitL(d, 9) + pth(d, "ink", 0.55, 0.3 + i * 0.25, 3.2); }).join(""), C, C, 150));
+    inner += part("outer", spin(B.map(function (d, i) { return hitL(d, 9) + pth(d, "red", 0.55, 0.8 + i * 0.25, 3.2); }).join(""), C, C, 210, true));
+    inner += cir(C, C, 205, "ink-soft", 0.6, 1.6, 2.4) + cir(C, C, 62, "ink-soft", 0.6, 1.8, 2.4);
+    return {
+      viewBox: "0 0 480 480", parts: parts, inner: inner,
+      label: "Two bands of interlaced wavy rings, one cream and one red, turning slowly in opposite directions and making a moiré where they cross."
+    };
+  }
+
   /* ============================================================ Certificate seal (guilloché) */
-  // Interlaced sine rings, the security pattern of banknotes and diplomas.
   function seal(id, inscription, badge, pattern) {
     var C = 120, RIM = 101;
     function ring(r) { return "M" + C + " " + (C - r) + "A" + r + " " + r + " 0 1 1 " + C + " " + (C + r) + "A" + r + " " + r + " 0 1 1 " + C + " " + (C - r); }
-    var strands = [];
-    for (var k = 0; k < pattern.copies; k++) {
-      var phase = (TAU * k) / pattern.copies, pts = [];
-      for (var i = 0; i <= 720; i++) {
-        var a = (i / 720) * TAU;
-        var r = pattern.r0 + pattern.amp * Math.sin(pattern.waves * a + phase) + (pattern.amp2 || 0) * Math.sin((pattern.waves2 || 0) * a);
-        pts.push([C + Math.cos(a) * r, C + Math.sin(a) * r]);
-      }
-      strands.push(line(pts));
-    }
+    var strands = bandPath(C, C, pattern.r0, pattern.amp, pattern.waves, pattern.copies, pattern.amp2, pattern.waves2);
     var inner = '<defs><path id="rim-' + id + '" d="' + ring(RIM) + '"/></defs>';
     [116, 111, 95, 59].forEach(function (r, i) {
       inner += cir(C, C, r, "ink-soft", i === 0 ? 0.8 : 0.45, i * 0.15, 1.4, ' transform="rotate(-90 ' + C + " " + C + ')"');
     });
-    strands.forEach(function (d, k2) { inner += pth(d, "ink-soft", 0.4, 0.5 + k2 * 0.12, 2.2); });
+    inner += spin(strands.map(function (d, k2) { return pth(d, "ink-soft", 0.4, 0.5 + k2 * 0.12, 2.2); }).join(""), C, C, 130);
     inner += '<g class="seal-rim fade"' + sty(1.4) + '><text class="seal-text"><textPath href="#rim-' + id + '" textLength="' + (TAU * RIM - 4).toFixed(1) +
       '" lengthAdjust="spacing">' + esc(inscription.toUpperCase()) + "</textPath></text></g>";
     if (badge) inner += '<image href="' + esc(badge) + '" x="' + (C - 51) + '" y="' + (C - 51) + '" width="102" height="102" class="fade"' + sty(2) + ' onerror="this.style.display=\'none\'"/>';
@@ -448,7 +606,12 @@ window.Plates = (function () {
   }
 
   /* ------------------------------------------------------------ registry */
-  var makers = { model: model, kavach: kavach, agent: agent, barter: barter, radar: radar, chronology: chronology };
+  var makers = {
+    model: model, kavach: kavach, agent: agent, barter: barter, radar: radar, chronology: chronology, rosette: rosette,
+    "wander-square": function () { return wander({ shape: "square", seed: 31, steps: 4000, tag: "st. 0.1", dur: 6.2, comet: 36 }); },
+    "wander-hex": function () { return wander({ shape: "hex", seed: 58, steps: 4000, tag: "st. 0.3", dur: 6.2, comet: 40 }); },
+    "wander-open": function () { return wander({ shape: "open", seed: 12, steps: 1600, tag: "st. 0.4", dur: 4.6, comet: 22 }); }
+  };
   var cache = {};
   function make(id) { return cache[id] || (cache[id] = makers[id]()); }
 
