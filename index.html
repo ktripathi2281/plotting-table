@@ -1,102 +1,639 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Plotting Table · Kaustubh Tripathi</title>
-<meta name="description" content="Selected works on an endless drafting table. Drag in any direction and read generated drawings of how each system works.">
-<meta name="theme-color" content="#f3efe6">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23131210'/%3E%3Cpath d='M5 22C12 22 14 10 27 10' fill='none' stroke='%23e5694a' stroke-width='2'/%3E%3Ccircle cx='5' cy='22' r='2.2' fill='%23ece6d9'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script>
-  (function () {
-    var r = document.documentElement, t = null;
-    try { t = localStorage.getItem("kt-theme"); } catch (e) {}
-    if (!t) t = "light"; // the table opens in daylight; Night is one tap away
-    r.setAttribute("data-theme", t);
-    r.className += " js";
-  })();
-</script>
-</head>
-<body>
+<html lang="en" data-theme="amber">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kaustubh Tripathi · Software &amp; AI Engineer</title>
+    <meta
+      name="description"
+      content="Kaustubh Tripathi, software and AI engineer in Bangalore. Backend systems in Java and Spring Boot at TCS, and language-model systems with guardrails, fallbacks and audit trails."
+    />
+    <meta name="author" content="Kaustubh Tripathi" />
+    <meta property="og:title" content="Kaustubh Tripathi · Software &amp; AI Engineer" />
+    <meta property="og:description" content="Backend systems in Java and Spring Boot, and language-model systems that hold their shape when the model doesn't." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kaustubh-tripathi.vercel.app/" />
+    <meta property="og:site_name" content="Kaustubh Tripathi" />
+    <meta property="og:image" content="https://kaustubh-tripathi.vercel.app/og.png" />
+    <meta property="og:image:width" content="2400" />
+    <meta property="og:image:height" content="1260" />
+    <meta property="og:image:alt" content="A terminal window: whoami, Kaustubh Tripathi, Software & AI Engineer, beside an ASCII portrait." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0d0c0a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<div id="stage"><div id="world"></div></div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google's JetBrains Mono subsets leave out box drawing and arrows; these come from the same
+         font, so the diagrams line up. Extend `text` when a new symbol appears on the page. -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap&amp;text=%E2%86%90%E2%86%92%E2%86%97%E2%86%A9%E2%94%80%E2%94%82%E2%94%8C%E2%94%90%E2%94%94%E2%94%98%E2%94%9C%E2%94%A4%E2%94%AC%E2%94%B4%E2%94%BC%E2%95%90%E2%96%88%E2%96%B2%E2%96%B8%E2%96%BA%E2%96%BC%E2%97%84%E2%97%8F%E2%9C%93" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
 
-<a class="brand box" href="https://kauswhynot.vercel.app/" aria-label="Back to the portfolio">K<i>·</i>T<span class="mono sub">The Plotting Table</span></a>
+    <script>
+      // Before first paint: the saved theme, and whether to open on the editor.
+      // The intro plays once per visit, and never for a link to a section.
+      (function () {
+        var root = document.documentElement;
+        try {
+          var theme = localStorage.getItem("theme");
+          if (theme) root.dataset.theme = theme;
+        } catch (e) {}
+        var seen = false;
+        try {
+          seen = sessionStorage.getItem("intro") === "seen";
+        } catch (e) {}
+        if (/[?&]intro\b/.test(location.search) || (!seen && !location.hash)) root.classList.add("has-intro");
+      })();
+    </script>
+    <script type="module" src="/js/main.js"></script>
+  </head>
+  <body>
+    <!-- The editor intro. Hidden without JavaScript, so the page is always readable. -->
+    <section class="intro" id="intro" aria-label="Intro">
+      <header class="intro-top">
+        <span class="intro-brand"><span class="mark">K<span>·</span>T</span> kaustubh tripathi</span>
+        <a href="https://github.com/ktripathi2281" target="_blank" rel="noreferrer">github</a>
+      </header>
 
-<nav class="tools box" aria-label="Tools">
-  <button type="button" data-act="index" aria-expanded="false" aria-controls="drawer">Index</button>
-  <button type="button" class="t-sound" data-act="sound" aria-pressed="false" title="Harp (M)">Sound <span data-sound-tx>off</span></button>
-  <button type="button" class="t-theme" data-act="theme" title="Day or night (D)"><span data-theme-tx>Day</span></button>
-</nav>
+      <div class="editor" aria-hidden="true">
+        <div class="tabline" id="tabline"></div>
+        <div class="buffer" id="buffer"></div>
+        <div class="statusline">
+          <span class="mode" id="mode">NORMAL</span>
+          <span class="status-path" id="status-path"></span>
+          <span class="status-pos" id="status-pos"></span>
+        </div>
+        <div class="cmdline-echo" id="echo"></div>
+      </div>
 
-<div class="show box" role="group" aria-label="Show">
-  <p class="mono lab">Show</p>
-  <button type="button" data-filter="all" aria-pressed="true">All</button>
-  <button type="button" data-filter="plate" aria-pressed="false">Plates</button>
-  <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
-  <button type="button" data-filter="credential" aria-pressed="false">Credentials</button>
-  <button type="button" data-filter="study" aria-pressed="false">Studies</button>
-  <button type="button" data-filter="note" aria-pressed="false">Notes</button>
-</div>
+      <ol class="intro-files" id="intro-files" aria-label="The code above, on GitHub"></ol>
 
-<form class="find box" id="find" role="search" autocomplete="off">
-  <ol class="hits" id="hits" hidden></ol>
-  <label class="mono lab" for="q">Find</label>
-  <input id="q" name="q" type="text" placeholder="agents, maps, guardrails…" spellcheck="false" enterkeyhint="search" aria-describedby="find-status">
-  <kbd aria-hidden="true">/</kbd>
-  <span class="mono status" id="find-status" aria-live="polite"></span>
-</form>
+      <footer class="intro-foot">
+        <p class="intro-tag">// software &amp; ai engineer. backend first.</p>
+        <div class="intro-actions">
+          <button type="button" class="intro-theme" id="intro-theme"><span aria-hidden="true">&gt;_</span> :theme</button>
+          <button type="button" class="enter" id="enter">enter <span aria-hidden="true">↩</span></button>
+        </div>
+      </footer>
+    </section>
 
-<p class="hint mono" id="hint"><span class="h-desk">Drag to explore <i>·</i> Ctrl or ⌘ + scroll to zoom</span><span class="h-touch">Drag to explore <i>·</i> pinch to zoom</span></p>
+    <div class="site" id="site">
+      <a href="#main" class="skip">skip to content</a>
 
-<div id="tip" class="tip" role="status" hidden></div>
-<p id="live" class="sr" role="status" aria-live="polite"></p>
+      <header class="topbar">
+        <a href="#top" class="brand" aria-label="Kaustubh Tripathi, back to top">
+          <span class="mark">K<span>·</span>T</span>
+          <span class="brand-path">~/kaustubh</span>
+        </a>
+        <nav aria-label="Sections">
+          <a href="#projects">projects</a>
+          <a href="#experience">experience</a>
+          <a href="#writing">writing</a>
+          <a href="#mail">mail</a>
+        </nav>
+      </header>
 
-<aside id="panel" class="panel" aria-labelledby="panel-title" hidden>
-  <div class="panel-bar">
-    <button type="button" data-act="prev" aria-label="Previous sheet">← Prev</button>
-    <span class="mono count" id="p-count"></span>
-    <button type="button" data-act="next" aria-label="Next sheet">Next →</button>
-    <button type="button" class="close" data-act="close" aria-label="Close the wall label">Close <span aria-hidden="true">×</span></button>
-  </div>
-  <div class="panel-body" id="p-body"></div>
-</aside>
+      <main id="main">
+        <!-- whoami -->
+        <section class="hero" id="top" aria-labelledby="name">
+          <div class="hero-art">
+            <pre class="portrait" id="portrait" role="img" aria-label="An ASCII portrait of Kaustubh Tripathi, generated from a photograph."><span>                                                      ***====--*@@@@@</span>
+<span>                                                 @%+========+++==**@@@@@@</span>
+<span>                                              %:=-===-====*+=-=*===-+=%%@@@@@</span>
+<span>                                            *===========--=+=::----::-+=:=@@@%@</span>
+<span>                                          +=-===-----=------:::::::::::::::-::==:</span>
+<span>                                        *==-:::-:::::::::::::::::.:::::::::-:-+=:</span>
+<span>                                        +-:::::--::::::::::.:::...  .......:::===-</span>
+<span>                                       =.::..::::::::::::::=+*=::::..    .    .:-: :</span>
+<span>                                      %= ............:...:=#%%###%%%%*-       .:. =-+</span>
+<span>                                       * ...  . ....    -=+##*##%%%%%%*=       .. :%</span>
+<span>                                       : .   +*-.    .-=+**#*##****#**#*-         :</span>
+<span>                                       .    =@@%%#*%%%%##*#*####*#*****#=      .:=</span>
+<span>                                       -   -@%+---=+*#####%###%%%%%##***:      :@</span>
+<span>                                       :  =@=::::.   .==+***+++++++****+:</span>
+<span>                                       : :@*.::::.    .:---=-.     . .-*=</span>
+<span>                                      #- %@=:::=.  .   =#*=: .    .:--.:*:</span>
+<span>                                      @-:@%*+=:.....::=#@%+:   :   . .::*=   :</span>
+<span>                                      % +%%@%%####**++*%%%*===. .. .  .-*+  *</span>
+<span>                                      * *##%#####==*#%%%@@@+-*#*===+*#*=+=  @</span>
+<span>                                      @:+++++==-::+%*#%%%%@%*-=#@@@@@%*==: :</span>
+<span>                                        +====:.:==:  .=+=-:=*=::+******+=  #</span>
+<span>                                          ==:               .==::++====+: :</span>
+<span>                                           ==   ..::::::. ..     .=----===</span>
+<span>                                            =:-++=======-:..     :-::-=-*</span>
+<span>                                             -**+==-:.::--====::-=----:.=</span>
+<span>                                              ==****=---=++===-:--=-.+*</span>
+<span>                                               ===+*****++==-:.:::. :%-</span>
+<span>                                                :-======-=-::::.. =:=*</span>
+<span>                                                   :::::: .    .: %:=:</span>
+<span>                                              --::.           :: =#.=   --</span>
+<span>                                            --:::::--:--:::.:::  %:.=  :+:.=--</span>
+<span>                                       *:   :---:::::--::..::.  *%  -  ==:.-==: =#</span>
+<span>                                 *: :=**=:   :--::::::...::.  .=**=:: .+=:.-=: -*+====*</span>
+<span>                           :.: .++.:==*===:   :--:::::::::.   -**+*:. :+=:.=: :+===+==+=+*=*%</span>
+<span>                      *: =*:.:. =+ +***=++=.   .:-:::::::.  ==%%+*+.: :==::- .+=-===+=:-==*%#=*##%%</span>
+<span>                 ==: -== :*: :. == **+=-:-+.     .....:.  .*-.=%%*= - -=-::. =---=:==:-=:*%*=*%%%%#%-</span>
+<span>            ===*=.:=:.==..*: .: -+ :      =+- +:         :=%   :*#%=:.==-:: :-:-=---::-=**+==%%%#+=#%%</span>
+<span>       #***+***=*+::=::=: +: :: :+ .:      =+:=*=:.    .:=*:      :=::=-::: :::--::::-+#*==*%%%%*#%%%%+</span>
+<span>    +=**:-**=::===*-.-.:: =: :. .=.=: .. .:  .:-=+*: .====     .   :=---::.::::-::::=**==*#%###%%%%*#*#=</span>
+<span>  ***+=**.:-+*=..:-+=:    =. ..  =-: ::::==  :::.  .-+=:. .::.:    :+=--:. ::::: .::.++=*%#**+-.       =+=:   .</span>
+<span>*****+=+*=:: :+*=---+*:  .=  ..  ==::-::-===::-==::-: .  .:-==  .  :=--:::-::-: :=:  +****=:.  ::::-:::  :==.</span>
+<span>****+*==+*-==: :=+***=+  :-  ..  ==:::-::==--: =:.=  .: .-===. ::: --:--::-::-: -:  =====:   -=====++*****+**:</span>
+<span>***++++==*+--==: :-:::=: ::   .  =-:::::-==:: := :=====:====: :::::--::-:::.::     -===:  .:=======-==+*****=*</span>
+<span>=+***++===++=-==: :-::=: :.      =-:::::==--:.:-.=-==-===-=: ::=-:--::::.:..::    :==:  ::-===--==+******+::-**</span>
+<span>-=+****=====*=--=. :-:-: :      .=-::::----:: :::===--=--=: ::-=::-::::.:: .:.    :=: .-----==+*****++**=:-+***+</span>
+<span>=--==-=+*=-:=+=-=-  :-:  :      .-:::::=--::: :::-==---:-- .::=----:::: :. .:     -= :==----=*+===::=*+--+******</span>
+<span>+=-==+-:::::::==-=.  ::  .      .-::::-=--::. .:------::=. :.:--=-::::  :  ::     -: ==------:::-==**++*********:</span>
+<span>===--=+=-::::::::-:  .           :::::--::..   :::::::::.  ..:::::..:  ..  :.     -. --:-:-===++==+*=::::::==++*+</span>
+<span>====--==+===-::::::              ::::::::...   ::.:.::::  .  ........      :      .. --::::-====-=*=::-=+*+====+++.</span>
+<span>=======-===+===-:::                .:::.  .   ::             ....  .      ..       . :--::::::::==::--=====++====++</span>
+<span>=======----===++==:                          ..    . .                    .           :::::::::==:::==============+=</span>
+<span>:::::....     ..:::                       ..:::--======-:....                        *=.:::..:=-:::===--=++=====+====:</span></pre>
+            <p class="portrait-note">generated from a photo<span class="hover-only"> · move your cursor over it</span></p>
+          </div>
 
-<aside id="drawer" class="drawer" aria-label="Index of sheets" hidden>
-  <div class="drawer-head">
-    <p class="mono">Index <span id="d-count"></span></p>
-    <button type="button" data-act="index-close">Close <span aria-hidden="true">×</span></button>
-  </div>
-  <form class="d-find" id="find-m" role="search" autocomplete="off">
-    <label class="mono lab" for="q-m">Find</label>
-    <input id="q-m" type="text" placeholder="agents, maps, guardrails…" spellcheck="false" enterkeyhint="search">
-  </form>
-  <ol class="d-list" id="d-list"></ol>
-  <div class="d-tools">
-    <button type="button" data-act="sound" aria-pressed="false">Sound <span data-sound-tx>off</span></button>
-    <button type="button" data-act="theme"><span data-theme-tx>Day</span></button>
-  </div>
-  <dl class="d-keys mono">
-    <div><dt>Arrows</dt><dd>pan</dd></div>
-    <div><dt>+ − 0</dt><dd>zoom</dd></div>
-    <div><dt>1</dt><dd>back to the start</dd></div>
-    <div><dt>/</dt><dd>find</dd></div>
-    <div><dt>[ ]</dt><dd>previous, next</dd></div>
-    <div><dt>M D I</dt><dd>sound, day, index</dd></div>
-    <div><dt>Esc</dt><dd>close, back</dd></div>
-  </dl>
-</aside>
+          <div class="hero-text">
+            <p class="prompt"><span class="ps">~</span> whoami</p>
+            <h1 id="name" tabindex="-1">Kaustubh Tripathi</h1>
+            <p class="lede">
+              Software &amp; AI engineer. I build backend systems in Java and Spring Boot at TCS, and language-model systems
+              that hold their shape when the model doesn't.
+            </p>
+            <p class="building">
+              <span class="tri" aria-hidden="true">▸</span> building
+              <a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer">tollgate</a>
+              <span class="dim">— an LLM gateway in Go, with payments-grade spend control</span>
+            </p>
 
-<noscript><p class="nojs">The Plotting Table needs JavaScript. The same work, as a page: <a href="https://kauswhynot.vercel.app/">kauswhynot.vercel.app</a>.</p></noscript>
+            <ul class="chips" aria-label="Stack">
+              <li class="c1">java</li>
+              <li class="c2">spring boot</li>
+              <li class="c3">typescript</li>
+              <li class="c4">react</li>
+              <li class="c5">node.js</li>
+              <li class="c1">next.js</li>
+              <li class="c2">go</li>
+              <li class="c3">python</li>
+              <li class="c4">postgresql</li>
+              <li class="c5">redis</li>
+              <li class="c1">docker</li>
+              <li class="c2">llm agents</li>
+            </ul>
 
-<script src="data.js"></script>
-<script src="plates.js"></script>
-<script src="sheets.js"></script>
-<script src="audio.js"></script>
-<script src="app.js"></script>
-</body>
+            <ul class="socials">
+              <li>
+                <a href="https://github.com/ktripathi2281" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub">
+                  <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/kaustubh-tripathi" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M8 10.5V17M12 17v-6.5M12 13.3c0-1.7 1.1-2.8 2.5-2.8S17 11.5 17 13.3V17" stroke-linecap="round"/><circle cx="8" cy="7.4" r="0.9" fill="currentColor" stroke="none"/></svg>
+                </a>
+              </li>
+              <li>
+                <a href="#mail" aria-label="Write to tripathikaustubh2281@gmail.com" title="tripathikaustubh2281@gmail.com">
+                  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.6 7l8.4 6 8.4-6" stroke-linejoin="round"/></svg>
+                </a>
+              </li>
+            </ul>
+
+            <p class="actions">
+              <a class="btn" href="/resume.pdf" target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3h8.5L19 7.5V21H6z" stroke-linejoin="round"/><path d="M14 3v5h5M9 12h7M9 15.5h7M9 19h4" stroke-linecap="round"/></svg>
+                resume.pdf
+              </a>
+              <a class="btn btn--go" href="#mail">write to me</a>
+            </p>
+
+            <p class="status-line"><span class="dot" aria-hidden="true"></span> open to software &amp; AI engineering roles</p>
+          </div>
+        </section>
+
+        <!-- fetch -->
+        <section class="block" id="fetch" aria-labelledby="fetch-cmd">
+          <h2 class="cmd" id="fetch-cmd"><span class="ps">$</span> fetch ktripathi2281</h2>
+          <div class="fetch">
+            <pre class="fetch-logo" aria-hidden="true">██  ██  ██████
+██ ██     ██
+████      ██
+██ ██     ██
+██  ██    ██</pre>
+            <dl class="fetch-info">
+              <div class="fetch-title"><dt class="visually-hidden">user</dt><dd><b>kaustubh</b>@<b>bangalore</b></dd></div>
+              <div><dt>role</dt><dd>Software &amp; AI Engineer</dd></div>
+              <div><dt>work</dt><dd>Product Engineer, Tata Consultancy Services</dd></div>
+              <div><dt>uptime</dt><dd id="uptime">at TCS since June 2025</dd></div>
+              <div><dt>shell</dt><dd>Java · TypeScript · JavaScript · SQL · Go · Python</dd></div>
+              <div><dt>repos</dt><dd><span id="repo-count">23</span> public on GitHub</dd></div>
+              <div><dt>certs</dt><dd>Claude Certified Developer · Claude Certified Architect</dd></div>
+              <div><dt>tz</dt><dd>Asia/Kolkata · <span id="fetch-clock">IST</span></dd></div>
+              <div class="swatches" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            </dl>
+          </div>
+
+          <h3 class="cmd cmd--sub"><span class="ps">$</span> git log --recent <span class="dim" id="log-note">· latest push to each repo</span></h3>
+          <ol class="gitlog" id="gitlog">
+            <li><a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer"><span class="sha">66090a0</span> <span class="repo">tollgate</span> <span class="lang">Go</span> <time datetime="2026-10-08T04:45:41Z">8 Oct</time> <span class="msg">docs: mark M2 complete</span></a></li>
+            <li><a href="https://github.com/ktripathi2281/LoopDetector" target="_blank" rel="noreferrer"><span class="sha">93d20a2</span> <span class="repo">LoopDetector</span> <span class="lang">TypeScript</span> <time datetime="2026-10-03T08:49:34Z">3 Oct</time> <span class="msg">Add /loops now: Rethink from the keyboard</span></a></li>
+            <li><a href="https://github.com/ktripathi2281/Leetcode-Tracker" target="_blank" rel="noreferrer"><span class="sha">934f3a6</span> <span class="repo">Leetcode-Tracker</span> <span class="lang">TypeScript</span> <time datetime="2026-09-26T10:31:39Z">26 Sept</time> <span class="msg">Prepare for going live: security, account features, hosting config</span></a></li>
+            <li><a href="https://github.com/ktripathi2281/DeepResearch" target="_blank" rel="noreferrer"><span class="sha">f197e1a</span> <span class="repo">DeepResearch</span> <span class="lang">Python</span> <time datetime="2026-09-21T14:40:36Z">21 Sept</time> <span class="msg">docs: polish project for portfolio presentation</span></a></li>
+            <li><a href="https://github.com/ktripathi2281/RideRadar" target="_blank" rel="noreferrer"><span class="sha">9f1db09</span> <span class="repo">RideRadar</span> <span class="lang">JavaScript</span> <time datetime="2026-09-19T16:12:43Z">19 Sept</time> <span class="msg">fix(auth): default JWT expiry to prevent 500 when env missing</span></a></li>
+          </ol>
+        </section>
+
+        <!-- projects -->
+        <section class="block" id="projects" aria-labelledby="projects-cmd">
+          <div class="block-head">
+            <h2 class="cmd" id="projects-cmd"><span class="ps">$</span> ls -l ~/projects</h2>
+            <div class="filters" role="group" aria-label="Filter projects">
+              <button type="button" aria-pressed="true" data-filter="all">all</button>
+              <button type="button" aria-pressed="false" data-filter="llm">llm</button>
+              <button type="button" aria-pressed="false" data-filter="backend">backend</button>
+              <button type="button" aria-pressed="false" data-filter="realtime">realtime</button>
+            </div>
+          </div>
+          <p class="hint">7 entries · open one to read how it works</p>
+
+          <div class="projects">
+            <details class="proj" id="kavach" data-tags="llm">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">kavach/</span>
+                <span class="ptype">AI cybercrime support platform</span>
+                <span class="badges"><span class="badge badge--live">live</span></span>
+              </summary>
+              <div class="proj-body">
+                <p>One case file for cybercrime victims in India: ten deadline-tracked steps, 22 languages, voice or text. Built with Ashutosh Kumar at the Build What Moves India hackathon.</p>
+                <pre class="diagram" aria-label="How Kavach works">voice · text ──► transcribe
+                     │
+      regex ─────────┼───────── llm
+  UTRs, UPI IDs      ▼     everything else
+                   facts
+                     │
+     draft ──► guard: does it contradict
+       ▲       a fact the citizen confirmed?
+       └─ yes ─┘     │ no
+                     ▼
+     case file · 10 steps on legal clocks</pre>
+                <p class="pstack"><span>stack</span> GPT-5, GPT-5-mini, GPT-4o-transcribe · Next.js, TypeScript, Supabase, IndexedDB</p>
+                <ul class="points">
+                  <li>Strict JSON-schema outputs on every route, through a provider-agnostic client with no SDK lock-in.</li>
+                  <li>Hybrid regex and LLM extraction of transaction IDs (UTRs), phone numbers and UPI IDs.</li>
+                  <li>A guardrail throws out any draft that contradicts facts the citizen has confirmed.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://cybercrime-assistant.vercel.app" target="_blank" rel="noreferrer">visit ↗</a>
+                  <a href="https://github.com/ashusnapx/hackathon" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/kavach/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+
+            <details class="proj" id="deepresearch" data-tags="llm backend">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">deepresearch/</span>
+                <span class="ptype">Research system with verified citations</span>
+                <span class="badges"></span>
+              </summary>
+              <div class="proj-body">
+                <p>Answers questions from a document corpus with verified citations, running locally with no paid APIs.</p>
+                <pre class="diagram" aria-label="How DeepResearch works">question
+   ├──► pgvector ──┐
+   └──► bm25 ──────┴──► rank fusion
+                            │
+                cross-encoder rerank
+                            │
+            draft answer + citations
+                            │
+    verify each claim against its evidence
+                            │
+     answer · or "the evidence isn't there"</pre>
+                <p class="pstack"><span>stack</span> Python, FastAPI, PostgreSQL + pgvector, Ollama · Next.js, React, TypeScript</p>
+                <ul class="points">
+                  <li>Hybrid retrieval: pgvector and BM25 fused by rank, then reranked by a local cross-encoder.</li>
+                  <li>Every cited claim is checked against the evidence it cites before the answer is shown.</li>
+                  <li>Says when evidence is missing or conflicting, instead of inventing an answer.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://github.com/ktripathi2281/DeepResearch" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/deepresearch/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+
+            <details class="proj" id="loopdetector" data-tags="llm">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">loop-detector/</span>
+                <span class="ptype">Claude Code mod</span>
+                <span class="badges"></span>
+              </summary>
+              <div class="proj-body">
+                <p>Notices when Claude Code is stuck repeating itself, using deterministic checks and no model calls.</p>
+                <pre class="diagram" aria-label="How Loop Detector works">tool call ──► record
+               action · target
+               failure · tests
+                    │
+   7 signals ──► score since the
+                 last real progress
+                    │
+     normal ── suspicious ── loop
+                               │
+               warn once, then you pick:
+               [inspect] [rethink]
+               [pause]   [continue]</pre>
+                <p class="pstack"><span>stack</span> TypeScript · a Claude Code plugin of function hooks</p>
+                <ul class="points">
+                  <li>Turns every tool call into a record: its action, target, failure fingerprint and test results.</li>
+                  <li>Seven deterministic signals score the work since the last real progress: same history, same verdict.</li>
+                  <li>Never stops Claude on its own: Inspect, Rethink, Pause and Continue are buttons you press.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://github.com/ktripathi2281/LoopDetector" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/loopdetector/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+
+            <details class="proj" id="leetcode" data-tags="llm">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">leetcode-agent-tracker/</span>
+                <span class="ptype">Interview-prep agents</span>
+                <span class="badges"></span>
+              </summary>
+              <div class="proj-body">
+                <p>Interview prep run by three agents: a planner, a Socratic tutor and a code reviewer.</p>
+                <pre class="diagram" aria-label="How LeetCode Agent Tracker works">you ──► planner
+          │  4 read-only tools
+          │  at most 8 turns
+          ├──► tutor     asks, never tells
+          └──► reviewer  reads your code
+                 │
+   every call ──► log
+                  tool calls · reasoning
+                  trace · latency</pre>
+                <p class="pstack"><span>stack</span> Google Gemini function calling · React, Express, MongoDB</p>
+                <ul class="points">
+                  <li>The planner acts only through four read-only tools, for at most eight turns.</li>
+                  <li>Leitner-style spaced repetition, topic heatmaps and company-readiness analytics.</li>
+                  <li>Every call is logged with its tool calls, reasoning trace and latency.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://github.com/ktripathi2281/Leetcode-Tracker" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/leetcode/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+
+            <details class="proj" id="tollgate" data-tags="backend llm">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">tollgate/</span>
+                <span class="ptype">LLM gateway in Go</span>
+                <span class="badges"><span class="badge badge--wip">in progress</span></span>
+              </summary>
+              <div class="proj-body">
+                <p>An OpenAI-compatible LLM gateway in Go with payments-grade spend control.</p>
+                <pre class="diagram" aria-label="How Tollgate works">client · any OpenAI SDK
+   │  POST /v1/chat/completions
+   ▼
+rate limit per key
+   │
+hold budget ── integer micro-USD
+   │
+provider ══ SSE ══► client
+   │  first-token · idle · total
+   │  timeouts
+   ▼
+settle the actual cost</pre>
+                <p class="pstack"><span>stack</span> Go · an OpenAI-compatible HTTP API</p>
+                <ul class="points">
+                  <li>Designed for per-key rate limits and hold-and-settle budgets in integer micro-USD.</li>
+                  <li>Built so far: chat completions streamed over SSE, with first-token, idle and total timeouts.</li>
+                  <li>Next: real providers, with retries, fallback and circuit breakers.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/tollgate/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+
+            <details class="proj" id="rideradar" data-tags="realtime">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">ride-radar/</span>
+                <span class="ptype">Real-time group trip tracker</span>
+                <span class="badges"><span class="badge badge--live">live</span></span>
+              </summary>
+              <div class="proj-body">
+                <p>A live map for groups riding together, with battery, SOS and lost-signal handling.</p>
+                <pre class="diagram" aria-label="How Ride Radar works">rider ──ws · jwt at handshake──┐
+  battery · sos · position     ▼
+                          trip room
+                               │
+                          group map
+                               │
+  signal lost? ──► stays at last known
+                   position, marked offline
+  trail: capped at 1,000 points a rider</pre>
+                <p class="pstack"><span>stack</span> Socket.io, React Leaflet, OpenStreetMap · Express, MongoDB</p>
+                <ul class="points">
+                  <li>A rider who loses signal stays on the map at their last known position, marked offline.</li>
+                  <li>JWT is checked at the socket handshake, and every event stays inside its trip's room.</li>
+                  <li>Trails are capped at 1,000 points per rider, so history stays a constant size.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://ride-radar-sand.vercel.app/" target="_blank" rel="noreferrer">visit ↗</a>
+                  <a href="https://github.com/ktripathi2281/RideRadar" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/rideradar/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+
+            <details class="proj" id="skillbarter" data-tags="realtime backend">
+              <summary>
+                <span class="perm">drwxr-xr-x</span>
+                <span class="pname">skill-barter/</span>
+                <span class="ptype">Peer-to-peer skill exchange</span>
+                <span class="badges"><span class="badge badge--live">live</span></span>
+              </summary>
+              <div class="proj-body">
+                <p>Trade skills without money. Matches are found both ways, your own city first, and both sides must agree.</p>
+                <pre class="diagram" aria-label="How Skill Barter works">you: teach A, want B
+              ▲ mutual match
+              ▼ your city first
+them: teach B, want A
+              │
+         real-time chat
+              │
+       trade proposed ──► both agree?
+                            │ yes
+                            ▼
+                        trade on</pre>
+                <p class="pstack"><span>stack</span> MongoDB, Socket.io, JWT · React, Express</p>
+                <ul class="points">
+                  <li>Finds mutual matches and one-way interest, with people in your own city first.</li>
+                  <li>Real-time chat, and a trade lifecycle that needs consent from both sides.</li>
+                  <li>Dual-token JWT with silent renewal, OTP email verification, rate limiting and CORS whitelisting.</li>
+                </ul>
+                <p class="plinks">
+                  <a href="https://skill-barter-psi.vercel.app/" target="_blank" rel="noreferrer">visit ↗</a>
+                  <a href="https://github.com/ktripathi2281/Skill-Barter" target="_blank" rel="noreferrer">source ↗</a>
+                  <a href="https://kauswhynot.vercel.app/essays/skillbarter/" target="_blank" rel="noreferrer">essay ↗</a>
+                </p>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <!-- experience -->
+        <section class="block" id="experience" aria-labelledby="experience-cmd">
+          <h2 class="cmd" id="experience-cmd"><span class="ps">$</span> cat experience.log</h2>
+          <ol class="log">
+            <li class="log-item log-item--now">
+              <p class="log-head"><time>2025-06 → now</time> product engineer · tata consultancy services</p>
+              <p class="log-where">Bangalore</p>
+              <ul class="points">
+                <li>Backend modules in Java and Spring Boot for a fintech and banking product, built into legacy systems.</li>
+                <li>SQL query tuning and indexing on critical processes.</li>
+                <li>Production debugging from logs and API traces, code review, and Jenkins build automation.</li>
+              </ul>
+            </li>
+            <li class="log-item log-item--cert">
+              <p class="log-head"><time>2026-09</time> certified by anthropic</p>
+              <ul class="certs">
+                <li>
+                  <span>Claude Certified Developer</span> <span class="dim">· 12 Sept 2026</span>
+                  <a href="https://www.credly.com/badges/2e1ecb88-4f11-4f3c-b7cf-a10251856c05/public_url" target="_blank" rel="noreferrer">verify ↗</a>
+                </li>
+                <li>
+                  <span>Claude Certified Architect</span> <span class="dim">· 19 Sept 2026</span>
+                  <a href="https://www.credly.com/badges/2bfa241d-e6f9-4330-8f23-37c70505c45a/public_url" target="_blank" rel="noreferrer">verify ↗</a>
+                </li>
+              </ul>
+            </li>
+            <li class="log-item">
+              <p class="log-head"><time>2020-10 → 2024-06</time> b.tech, computer science &amp; engineering</p>
+              <p class="log-where">Madan Mohan Malaviya University of Technology, Gorakhpur · CGPA 7.9</p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- stack -->
+        <section class="block" id="stack" aria-labelledby="stack-cmd">
+          <h2 class="cmd" id="stack-cmd"><span class="ps">$</span> cat stack.toml</h2>
+          <pre class="toml"><span class="t-sec">[ai]</span>
+<span class="t-key">models</span>     = [<span class="t-str">"OpenAI GPT-5 family"</span>, <span class="t-str">"Google Gemini"</span>]
+<span class="t-key">practice</span>   = [<span class="t-str">"tool calling"</span>, <span class="t-str">"agentic workflows"</span>, <span class="t-str">"structured outputs"</span>,
+              <span class="t-str">"multi-model routing"</span>, <span class="t-str">"guardrails"</span>, <span class="t-str">"fallbacks"</span>, <span class="t-str">"observability"</span>]
+
+<span class="t-sec">[languages]</span>
+<span class="t-key">daily</span>      = [<span class="t-str">"Java"</span>, <span class="t-str">"TypeScript"</span>, <span class="t-str">"JavaScript"</span>, <span class="t-str">"SQL"</span>, <span class="t-str">"C++"</span>]
+<span class="t-key">also</span>       = [<span class="t-str">"Go"</span>, <span class="t-str">"Python"</span>]  <span class="t-com"># tollgate, deepresearch</span>
+
+<span class="t-sec">[frameworks]</span>
+<span class="t-key">backend</span>    = [<span class="t-str">"Spring Boot"</span>, <span class="t-str">"Spring Security"</span>, <span class="t-str">"Node.js"</span>, <span class="t-str">"Express"</span>, <span class="t-str">"Socket.io"</span>]
+<span class="t-key">frontend</span>   = [<span class="t-str">"React"</span>, <span class="t-str">"Next.js"</span>, <span class="t-str">"Tailwind CSS"</span>]
+
+<span class="t-sec">[data]</span>
+<span class="t-key">stores</span>     = [<span class="t-str">"PostgreSQL"</span>, <span class="t-str">"MongoDB"</span>, <span class="t-str">"Redis"</span>, <span class="t-str">"MySQL"</span>, <span class="t-str">"Supabase"</span>]
+
+<span class="t-sec">[tools]</span>
+<span class="t-key">ship</span>       = [<span class="t-str">"Docker"</span>, <span class="t-str">"Git"</span>, <span class="t-str">"GitHub Actions"</span>, <span class="t-str">"Jenkins"</span>, <span class="t-str">"Postman"</span>, <span class="t-str">"Vitest"</span>, <span class="t-str">"Linux"</span>]</pre>
+        </section>
+
+        <!-- how I work -->
+        <section class="block" id="principles" aria-labelledby="principles-cmd">
+          <h2 class="cmd" id="principles-cmd"><span class="ps">$</span> cat how-i-work.md</h2>
+          <div class="note">
+            <p>
+              I am a software engineer first. At Tata Consultancy Services I work on Java and Spring Boot services for a
+              banking product, where the job is keeping legacy systems fast, correct and debuggable in production. Lately
+              I've been bringing the same instincts to language models.
+            </p>
+            <p>
+              In practice that means typed, schema-validated outputs, guardrails that reject answers contradicting what a user
+              has already confirmed, a deterministic fallback behind every model route, and a log entry for every decision an
+              agent makes.
+            </p>
+            <p class="dim">The model is the least reliable part of the system. Everything I build around it is designed to hold.</p>
+          </div>
+        </section>
+
+        <!-- writing -->
+        <section class="block" id="writing" aria-labelledby="writing-cmd">
+          <h2 class="cmd" id="writing-cmd"><span class="ps">$</span> ls ~/writing</h2>
+          <p class="hint">one essay per project, on <a href="https://kauswhynot.vercel.app/" target="_blank" rel="noreferrer">kauswhynot.vercel.app ↗</a></p>
+          <ol class="essays">
+            <li><a href="https://kauswhynot.vercel.app/essays/kavach/" target="_blank" rel="noreferrer"><span class="no">I</span><span class="et">Confidently wrong</span><span class="es">Building an AI assistant a fraud victim can rely on at 2 a.m.</span></a></li>
+            <li><a href="https://kauswhynot.vercel.app/essays/leetcode/" target="_blank" rel="noreferrer"><span class="no">II</span><span class="et">Show your work</span><span class="es">An AI study coach with a small world, a strict examiner and a paper trail.</span></a></li>
+            <li><a href="https://kauswhynot.vercel.app/essays/deepresearch/" target="_blank" rel="noreferrer"><span class="no">III</span><span class="et">Pointing is not proving</span><span class="es">A research system that checks its own citations, and says so when it can't.</span></a></li>
+            <li><a href="https://kauswhynot.vercel.app/essays/loopdetector/" target="_blank" rel="noreferrer"><span class="no">IV</span><span class="et">The same failure, again</span><span class="es">Noticing when a coding agent is stuck, without asking another model.</span></a></li>
+            <li><a href="https://kauswhynot.vercel.app/essays/tollgate/" target="_blank" rel="noreferrer"><span class="no">V</span><span class="et">The commit point</span><span class="es">An LLM gateway in Go, built the way payment systems are.</span></a></li>
+            <li><a href="https://kauswhynot.vercel.app/essays/rideradar/" target="_blank" rel="noreferrer"><span class="no">VI</span><span class="et">Where is everyone?</span><span class="es">A live map for a group ride, and what to show when a rider goes quiet.</span></a></li>
+            <li><a href="https://kauswhynot.vercel.app/essays/skillbarter/" target="_blank" rel="noreferrer"><span class="no">VII</span><span class="et">A double coincidence of wants</span><span class="es">Trading skills without money, and the oldest problem with barter.</span></a></li>
+          </ol>
+        </section>
+
+        <!-- mail -->
+        <section class="block" id="mail" aria-labelledby="mail-cmd">
+          <h2 class="cmd" id="mail-cmd"><span class="ps">$</span> mail kaustubh</h2>
+          <form class="mail" id="mail-form" novalidate>
+            <div class="mail-row">
+              <span class="mail-label">to:</span>
+              <a class="mail-to" href="mailto:tripathikaustubh2281@gmail.com">tripathikaustubh2281@gmail.com</a>
+            </div>
+            <label class="mail-row">
+              <span class="mail-label">from:</span>
+              <input type="email" name="email" required maxlength="200" autocomplete="email" placeholder="you@example.com" />
+            </label>
+            <label class="mail-row">
+              <span class="mail-label">name:</span>
+              <input type="text" name="name" required maxlength="100" autocomplete="name" placeholder="Your name" />
+            </label>
+            <label class="mail-row">
+              <span class="mail-label">subject:</span>
+              <input type="text" name="subject" maxlength="150" placeholder="A role, a project, or just hello" />
+            </label>
+            <label class="mail-body">
+              <span class="visually-hidden">Message</span>
+              <textarea name="message" required minlength="10" maxlength="4000" rows="7" placeholder="Write as much or as little as you like…"></textarea>
+            </label>
+            <input type="checkbox" name="botcheck" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="mail-foot">
+              <p class="mail-status" id="mail-status" role="status" aria-live="polite"></p>
+              <button type="submit" class="btn btn--go" id="mail-send">send</button>
+            </div>
+          </form>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <p>© 2026 Kaustubh Tripathi · plain HTML, CSS and JavaScript · <a href="https://github.com/ktripathi2281/plotting-table/tree/redesign/terminal" target="_blank" rel="noreferrer">source ↗</a></p>
+        <p><kbd>:</kbd> commands · <kbd>j</kbd>/<kbd>k</kbd> sections</p>
+      </footer>
+
+      <!-- vim's status line and command line, along the bottom of the screen -->
+      <div class="term-out" id="term-out" role="log" aria-live="polite" hidden></div>
+      <div class="statusbar" id="statusbar">
+        <span class="sb-mode" id="sb-mode">NORMAL</span>
+        <span class="sb-file" id="sb-file">~/kaustubh/whoami.md</span>
+        <span class="sb-open"><span class="dot" aria-hidden="true"></span> open to work</span>
+        <span class="sb-clock" id="sb-clock">IST</span>
+        <button type="button" class="sb-cmd" id="sb-cmd" aria-label="Open the command line">:</button>
+        <form class="sb-input" id="sb-input" hidden>
+          <label for="cmd-input" class="visually-hidden">Command</label>
+          <span aria-hidden="true">:</span><input id="cmd-input" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" />
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

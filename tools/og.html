@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" data-theme="amber">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Share card</title>
+    <!-- Draws /og.png, the link-preview image. Not deployed (see .vercelignore).
+         Serve the folder, open /tools/og.html and capture #card at 2× as og.png. -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap&amp;text=%E2%86%90%E2%86%92%E2%86%97%E2%86%A9%E2%94%80%E2%94%82%E2%94%8C%E2%94%90%E2%94%94%E2%94%98%E2%94%9C%E2%94%A4%E2%94%AC%E2%94%B4%E2%94%BC%E2%95%90%E2%96%88%E2%96%B2%E2%96%B8%E2%96%BA%E2%96%BC%E2%97%84%E2%97%8F%E2%9C%93" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+      }
+      #card {
+        position: relative;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      .og-tabs {
+        display: flex;
+        background: var(--bg-2);
+        font-size: 17px;
+        line-height: 2.1;
+      }
+      .og-tabs span {
+        padding: 0 22px;
+        color: var(--muted);
+      }
+      .og-tabs .is-on {
+        background: var(--bg);
+        color: var(--fg);
+      }
+      .og-tabs .is-on::before {
+        content: "● ";
+        color: var(--accent);
+      }
+      .og-main {
+        display: grid;
+        grid-template-columns: 430px minmax(0, 1fr);
+        gap: 56px;
+        align-items: center;
+        padding: 0 64px 0 56px;
+      }
+      .og-art {
+        container-type: inline-size;
+      }
+      .og-text .prompt {
+        font-size: 24px;
+      }
+      .og-text h1 {
+        margin-top: 6px;
+        font-size: 58px;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        color: var(--fg);
+      }
+      .og-role {
+        margin-top: 22px;
+        font-size: 26px;
+        color: var(--fg-2);
+      }
+      .og-stack {
+        margin-top: 14px;
+        font-size: 21px;
+        color: var(--muted);
+      }
+      .og-stack b {
+        font-weight: 400;
+        color: var(--accent);
+      }
+      .og-open {
+        margin-top: 30px;
+        font-size: 20px;
+        color: var(--green);
+      }
+      .og-open .dot {
+        width: 11px;
+        height: 11px;
+        margin-right: 10px;
+        animation: none;
+      }
+      .og-bar {
+        display: flex;
+        height: 44px;
+        background: var(--bg-3);
+        font-size: 18px;
+        line-height: 44px;
+      }
+      .og-bar span {
+        padding: 0 22px;
+      }
+      .og-bar .sb-mode {
+        font-weight: 700;
+      }
+      .og-bar .og-url {
+        margin-left: auto;
+        color: var(--fg-2);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card">
+      <div class="og-tabs"><span class="is-on">whoami.md</span><span>projects.md</span><span>experience.log</span><span>stack.toml</span></div>
+      <div class="og-main">
+        <div class="og-art"><pre class="portrait" id="portrait"></pre></div>
+        <div class="og-text">
+          <p class="prompt"><span class="ps">~</span> whoami</p>
+          <h1>Kaustubh<br />Tripathi</h1>
+          <p class="og-role">Software &amp; AI Engineer</p>
+          <p class="og-stack"><b>java</b> · <b>spring boot</b> · <b>go</b> · <b>llm systems</b></p>
+          <p class="og-open"><span class="dot"></span>open to software &amp; AI engineering roles</p>
+        </div>
+      </div>
+      <div class="og-bar">
+        <span class="sb-mode">NORMAL</span><span class="dim">~/kaustubh/whoami.md</span><span class="og-url">kaustubh-tripathi.vercel.app</span>
+      </div>
+    </div>
+    <script type="module">
+      // The portrait, taken from the page itself.
+      const html = await (await fetch("/index.html")).text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      document.getElementById("portrait").innerHTML = doc.getElementById("portrait").innerHTML;
+      document.body.dataset.ready = "1";
+    </script>
+  </body>
+</html>
