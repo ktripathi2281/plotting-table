@@ -8,8 +8,6 @@ my repositories (Tollgate, DeepResearch and Loop Detector) until you press Enter
   left for you to find.
 - **Live:** `git log --recent` reads the latest commit in each of my most recently pushed repositories from
   GitHub's public API, cached for half an hour. The page ships with a snapshot, used when the API is unavailable.
-- **Portrait:** a photograph traced into flat comic tones and ink lines, then set in braille, whose 2×4 dots per
-  character make an even grid in Noto Sans Symbols 2.
 - **Essays:** one per project, in [`essays/`](essays/), read in a vim-style buffer over the page. Essay links and
   `:read` open one; `:q` brings you back.
 - **Mail:** sent through Web3Forms with a public access key, with the visitor's own mail app as the fallback.

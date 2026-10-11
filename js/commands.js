@@ -246,7 +246,7 @@ export function initCommands() {
     const needle = smart ? pattern : pattern.toLowerCase();
     const walker = document.createTreeWalker(reader?.isOpen() ? reader.root() : main, NodeFilter.SHOW_TEXT, {
       acceptNode: (node) =>
-        node.nodeValue.trim() && !node.parentElement.closest("#portrait, .fetch-logo, [aria-hidden='true'], script, style")
+        node.nodeValue.trim() && !node.parentElement.closest(".fetch-logo, [aria-hidden='true'], script, style")
           ? NodeFilter.FILTER_ACCEPT
           : NodeFilter.FILTER_REJECT,
     });

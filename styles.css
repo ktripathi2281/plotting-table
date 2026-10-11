@@ -273,62 +273,7 @@ kbd {
 /* whoami */
 
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
-  gap: 48px;
-  align-items: center;
-  padding: 56px 0 24px;
-}
-
-.hero-art {
-  container-type: inline-size;
-}
-
-/* 110 braille characters across. Noto Sans Symbols 2 gives every pattern a
-   0.7em advance, its dots 0.26em apart within a character and 0.25em apart
-   down it; this spacing and line height carry that pitch across characters
-   and lines, so the dots sit on one even grid. */
-.portrait {
-  --mx: 40%;
-  --my: 30%;
-  font-family: "Noto Sans Symbols 2", monospace;
-  font-size: calc(100cqi / 57.2);
-  line-height: 0.99;
-  letter-spacing: -0.18em;
-  white-space: pre;
-  user-select: none;
-  background: radial-gradient(circle at var(--mx) var(--my), var(--accent) 0, var(--fg) 34%, var(--fg) 58%, var(--fg-2) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Printed top to bottom, a couple of rows at a time, once the page is in view. */
-.js .site:not(.is-in) .portrait {
-  clip-path: inset(0 0 100% 0);
-}
-
-.js .site.is-in .portrait {
-  clip-path: inset(0);
-  transition: clip-path 1.4s steps(34) 0.1s;
-}
-
-@media (hover: none) {
-  .hover-only {
-    display: none;
-  }
-}
-
-/* The straw keeps its colour. */
-.portrait .straw {
-  color: var(--red);
-}
-
-.portrait-note {
-  margin-top: 0.8rem;
-  font-size: 11px;
-  color: var(--faint);
-  text-align: center;
+  padding: clamp(56px, 11vh, 112px) 0 24px;
 }
 
 .prompt {
@@ -345,16 +290,17 @@ kbd {
 
 .hero h1 {
   margin-top: 0.15rem;
-  font-size: clamp(28px, 4.2vw, 38px);
-  line-height: 1.15;
+  font-size: clamp(34px, 6.4vw, 60px);
+  line-height: 1.08;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--fg);
 }
 
 .lede {
-  max-width: 48ch;
-  margin-top: 1rem;
+  max-width: 54ch;
+  margin-top: 1.25rem;
+  font-size: 15px;
   color: var(--fg-2);
 }
 
@@ -1481,13 +1427,10 @@ kbd {
     font-size: 12px;
   }
   .hero {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
-    padding-top: 32px;
+    padding-top: 40px;
   }
-  .hero-art {
-    width: min(100%, 320px);
-    margin: 0 auto;
+  .lede {
+    font-size: 14px;
   }
   .block {
     margin-top: 60px;

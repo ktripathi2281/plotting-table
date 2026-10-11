@@ -1,6 +1,5 @@
 import { initTheme } from "./theme.js";
 import { runIntro } from "./intro.js";
-import { initPortrait } from "./portrait.js";
 import { initProjects } from "./projects.js";
 import { initCommands } from "./commands.js";
 import { initMail } from "./mail.js";
@@ -8,7 +7,6 @@ import { initActivity } from "./activity.js";
 
 document.documentElement.classList.add("js");
 initTheme();
-initPortrait();
 initProjects();
 initCommands();
 initMail();
@@ -25,8 +23,6 @@ const span = [years && `${years} year${years > 1 ? "s" : ""}`, rest && `${rest} 
 const uptime = document.getElementById("uptime");
 if (uptime && months > 0) uptime.textContent = `${span} at TCS`;
 
-const site = document.getElementById("site");
 runIntro((fromIntro) => {
-  site.classList.add("is-in");
   if (fromIntro) document.getElementById("name").focus({ preventScroll: true });
 });

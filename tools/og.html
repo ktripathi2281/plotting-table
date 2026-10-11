@@ -42,13 +42,15 @@
       }
       .og-main {
         display: grid;
-        grid-template-columns: 430px minmax(0, 1fr);
-        gap: 56px;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 80px;
         align-items: center;
-        padding: 0 64px 0 56px;
+        padding: 0 72px 0 96px;
       }
-      .og-art {
-        container-type: inline-size;
+      .og-logo {
+        font-size: 34px;
+        line-height: 1;
+        color: var(--accent);
       }
       .og-text .prompt {
         font-size: 24px;
@@ -108,7 +110,11 @@
     <div id="card">
       <div class="og-tabs"><span class="is-on">whoami.md</span><span>projects.md</span><span>experience.log</span><span>stack.toml</span></div>
       <div class="og-main">
-        <div class="og-art"><pre class="portrait" id="portrait"></pre></div>
+        <pre class="og-logo" aria-hidden="true">██  ██  ██████
+██ ██     ██
+████      ██
+██ ██     ██
+██  ██    ██</pre>
         <div class="og-text">
           <p class="prompt"><span class="ps">~</span> whoami</p>
           <h1>Kaustubh<br />Tripathi</h1>
@@ -121,12 +127,8 @@
         <span class="sb-mode">NORMAL</span><span class="dim">~/kaustubh/whoami.md</span><span class="og-url">kaustubh-tripathi.vercel.app</span>
       </div>
     </div>
-    <script type="module">
-      // The portrait, taken from the page itself.
-      const html = await (await fetch("/index.html")).text();
-      const doc = new DOMParser().parseFromString(html, "text/html");
-      document.getElementById("portrait").innerHTML = doc.getElementById("portrait").innerHTML;
-      document.body.dataset.ready = "1";
+    <script>
+      document.fonts.ready.then(() => (document.body.dataset.ready = "1"));
     </script>
   </body>
 </html>
