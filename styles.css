@@ -284,16 +284,20 @@ kbd {
   container-type: inline-size;
 }
 
-/* 120 columns of JetBrains Mono at 0.6em each: the portrait fills its column. */
+/* 110 braille characters across. Noto Sans Symbols 2 gives every pattern a
+   0.7em advance, its dots 0.26em apart within a character and 0.25em apart
+   down it; this spacing and line height carry that pitch across characters
+   and lines, so the dots sit on one even grid. */
 .portrait {
-  --mx: 50%;
-  --my: 42%;
-  font-size: calc(100cqi / 72.5);
-  line-height: 1.23;
-  letter-spacing: 0;
+  --mx: 40%;
+  --my: 30%;
+  font-family: "Noto Sans Symbols 2", monospace;
+  font-size: calc(100cqi / 57.2);
+  line-height: 0.99;
+  letter-spacing: -0.18em;
   white-space: pre;
   user-select: none;
-  background: radial-gradient(circle at var(--mx) var(--my), var(--accent) 0, var(--fg) 30%, var(--fg-2) 55%, var(--muted) 85%);
+  background: radial-gradient(circle at var(--mx) var(--my), var(--accent) 0, var(--fg) 34%, var(--fg) 58%, var(--fg-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -306,13 +310,18 @@ kbd {
 
 .js .site.is-in .portrait {
   clip-path: inset(0);
-  transition: clip-path 1.3s steps(26) 0.1s;
+  transition: clip-path 1.4s steps(34) 0.1s;
 }
 
 @media (hover: none) {
   .hover-only {
     display: none;
   }
+}
+
+/* The straw keeps its colour. */
+.portrait .straw {
+  color: var(--red);
 }
 
 .portrait-note {
@@ -1065,8 +1074,30 @@ kbd {
   color: var(--fg-2);
 }
 
-.sb-open {
+.sb-file.is-echo {
+  color: var(--fg);
+}
+
+.sb-file.is-err {
+  color: var(--red);
+}
+
+.sb-file.is-warn {
+  color: var(--accent);
+}
+
+/* vim's showcmd: a count or the first key of a two-key command, as it's typed. */
+.statusbar > .sb-showcmd {
   margin-left: auto;
+  padding: 0 0.9rem;
+  color: var(--fg-2);
+}
+
+.sb-showcmd:empty {
+  padding: 0;
+}
+
+.sb-open {
   color: var(--muted);
 }
 
@@ -1076,10 +1107,16 @@ kbd {
 }
 
 .sb-cmd {
-  width: 2.5rem;
+  padding: 0 0.9rem;
   border: 0;
   border-left: 1px solid var(--line);
   background: none;
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.sb-cmd b {
+  margin-right: 0.3rem;
   font-weight: 700;
   color: var(--accent);
 }
@@ -1510,11 +1547,22 @@ kbd {
     padding: 0.55rem 0.8rem;
   }
   .sb-file,
-  .sb-open {
+  .sb-open,
+  .sb-showcmd {
     display: none;
+  }
+  .statusbar > .sb-file.is-echo {
+    display: block;
   }
   .sb-clock {
     margin-left: auto;
+  }
+  .palette {
+    width: 100%;
+  }
+  .pal-item {
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    padding: 0.4rem 1rem;
   }
   .has-intro .intro {
     padding: 18px 16px 16px;
@@ -1587,4 +1635,336 @@ kbd {
 
 .lost .caret {
   margin-left: 0.3rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* The command palette                                                 */
+/* ------------------------------------------------------------------ */
+
+.palette {
+  position: fixed;
+  left: 0;
+  bottom: 28px;
+  z-index: 31;
+  width: min(580px, 100%);
+  max-height: min(62vh, 25rem);
+  overflow-y: auto;
+  padding: 0.35rem 0 0.25rem;
+  border: 1px solid var(--line-2);
+  border-bottom: 0;
+  border-left: 0;
+  background: var(--bg-2);
+  font-size: 13px;
+}
+
+.palette[hidden] {
+  display: none;
+}
+
+.pal-item {
+  display: grid;
+  grid-template-columns: 11.5rem minmax(0, 1fr);
+  gap: 1rem;
+  width: 100%;
+  padding: 0.22rem 1rem;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: var(--fg-2);
+}
+
+.pal-item:hover,
+.pal-item.is-on {
+  background: var(--bg-3);
+}
+
+.pal-cmd {
+  color: var(--fg);
+}
+
+.pal-item.is-on .pal-cmd,
+.pal-item:hover .pal-cmd {
+  color: var(--accent);
+}
+
+.pal-desc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+
+.pal-nudge {
+  margin-top: 0.3rem;
+  padding: 0.45rem 1rem 0.15rem;
+  border-top: 1px dashed var(--line);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--faint);
+}
+
+/* Search: every match, and the one the cursor is on. */
+::highlight(search) {
+  background-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--fg);
+}
+
+::highlight(search-current) {
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* :set number. The opening is line 1; each block after it numbers on. */
+#main {
+  counter-reset: block 1;
+}
+
+#main > .block {
+  counter-increment: block;
+}
+
+.numbered .block > .cmd:first-child,
+.numbered .block-head > .cmd {
+  position: relative;
+}
+
+.numbered .block > .cmd:first-child::before,
+.numbered .block-head > .cmd::before {
+  content: counter(block);
+  position: absolute;
+  right: calc(100% + 1.1rem);
+  color: var(--faint);
+}
+
+@media (max-width: 760px) {
+  .numbered .block > .cmd:first-child::before,
+  .numbered .block-head > .cmd::before {
+    position: static;
+    margin-right: 0.9ch;
+  }
+}
+
+/* The shell that :q leaves you in. */
+.shell {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow-y: auto;
+  padding: 28px 24px;
+  background: var(--bg);
+  font-size: 14px;
+  color: var(--fg-2);
+}
+
+.shell[hidden] {
+  display: none;
+}
+
+.shell-log {
+  white-space: pre-wrap;
+}
+
+.shell-line {
+  display: flex;
+  gap: 0.6ch;
+  align-items: baseline;
+}
+
+.shell-line input::placeholder {
+  color: var(--faint);
+}
+
+.shell-line input {
+  flex: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  color: var(--fg);
+  caret-color: var(--fg);
+}
+
+/* ------------------------------------------------------------------ */
+/* The essay buffer                                                    */
+/* ------------------------------------------------------------------ */
+
+.reading body {
+  overflow: hidden;
+}
+
+.reader {
+  position: fixed;
+  inset: 0 0 28px;
+  z-index: 25;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--bg);
+}
+
+.reader[hidden] {
+  display: none;
+}
+
+.reader-bar {
+  display: flex;
+  align-items: stretch;
+  background: var(--bg-2);
+  font-size: 12px;
+}
+
+.reader-tabs {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  gap: 1px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.reader-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.reader-tabs a {
+  flex: none;
+  padding: 0.3rem 0.95rem;
+  color: var(--muted);
+}
+
+.reader-tabs a:hover {
+  color: var(--fg-2);
+}
+
+.reader-tabs a[aria-selected="true"] {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.reader-tabs a[aria-selected="true"]::before {
+  content: "● ";
+  color: var(--accent);
+}
+
+.reader-close {
+  flex: none;
+  padding: 0 1rem;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: none;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.reader-close:hover {
+  background: var(--bg-3);
+}
+
+.reader-buffer {
+  overflow-y: auto;
+  padding: 0.9rem 24px 3rem;
+  font-size: 14px;
+  line-height: 1.7;
+  outline: none;
+}
+
+.reader .ln {
+  display: grid;
+  grid-template-columns: 4.5ch minmax(0, 76ch);
+  gap: 1.5ch;
+  justify-content: center;
+}
+
+.reader .no {
+  text-align: right;
+  user-select: none;
+  color: var(--faint);
+}
+
+.reader.nonumber .no {
+  visibility: hidden;
+}
+
+.reader .tx {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--fg-2);
+}
+
+.reader .is-end .no {
+  text-align: left;
+  color: var(--blue);
+}
+
+.md-h1 {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.md-h2 {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.md-em {
+  font-style: italic;
+  color: var(--fg);
+}
+
+.md-bold {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.md-code {
+  color: var(--green);
+}
+
+.md-link {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--blue) 45%, transparent);
+}
+
+.md-url,
+.md-rule {
+  color: var(--faint);
+}
+
+.md-key {
+  color: var(--blue);
+}
+
+.md-val {
+  color: var(--green);
+}
+
+.md-mark {
+  color: var(--accent);
+}
+
+.md-quote {
+  font-style: italic;
+  color: var(--muted);
+}
+
+.statusbar > .sb-pos {
+  padding: 0 0.9rem;
+  border-left: 1px solid var(--line);
+  color: var(--fg-2);
+}
+
+.sb-pos[hidden] {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .reader-buffer {
+    padding: 0.7rem 12px 3rem;
+    font-size: 13px;
+  }
+  .reader .ln {
+    grid-template-columns: 3ch minmax(0, 1fr);
+    gap: 1ch;
+  }
 }

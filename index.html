@@ -31,6 +31,8 @@
     <!-- Google's JetBrains Mono subsets leave out box drawing and arrows; these come from the same
          font, so the diagrams line up. Extend `text` when a new symbol appears on the page. -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap&amp;text=%E2%86%90%E2%86%92%E2%86%97%E2%86%A9%E2%94%80%E2%94%82%E2%94%8C%E2%94%90%E2%94%94%E2%94%98%E2%94%9C%E2%94%A4%E2%94%AC%E2%94%B4%E2%94%BC%E2%95%90%E2%96%88%E2%96%B2%E2%96%B8%E2%96%BA%E2%96%BC%E2%97%84%E2%97%8F%E2%9C%93" rel="stylesheet" />
+    <!-- The portrait is braille, from Noto Sans Symbols 2: every pattern the same width. -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
 
     <script>
@@ -101,59 +103,76 @@
         <!-- whoami -->
         <section class="hero" id="top" aria-labelledby="name">
           <div class="hero-art">
-            <pre class="portrait" id="portrait" role="img" aria-label="An ASCII portrait of Kaustubh Tripathi, generated from a photograph."><span>                                                      ***====--*@@@@@</span>
-<span>                                                 @%+========+++==**@@@@@@</span>
-<span>                                              %:=-===-====*+=-=*===-+=%%@@@@@</span>
-<span>                                            *===========--=+=::----::-+=:=@@@%@</span>
-<span>                                          +=-===-----=------:::::::::::::::-::==:</span>
-<span>                                        *==-:::-:::::::::::::::::.:::::::::-:-+=:</span>
-<span>                                        +-:::::--::::::::::.:::...  .......:::===-</span>
-<span>                                       =.::..::::::::::::::=+*=::::..    .    .:-: :</span>
-<span>                                      %= ............:...:=#%%###%%%%*-       .:. =-+</span>
-<span>                                       * ...  . ....    -=+##*##%%%%%%*=       .. :%</span>
-<span>                                       : .   +*-.    .-=+**#*##****#**#*-         :</span>
-<span>                                       .    =@@%%#*%%%%##*#*####*#*****#=      .:=</span>
-<span>                                       -   -@%+---=+*#####%###%%%%%##***:      :@</span>
-<span>                                       :  =@=::::.   .==+***+++++++****+:</span>
-<span>                                       : :@*.::::.    .:---=-.     . .-*=</span>
-<span>                                      #- %@=:::=.  .   =#*=: .    .:--.:*:</span>
-<span>                                      @-:@%*+=:.....::=#@%+:   :   . .::*=   :</span>
-<span>                                      % +%%@%%####**++*%%%*===. .. .  .-*+  *</span>
-<span>                                      * *##%#####==*#%%%@@@+-*#*===+*#*=+=  @</span>
-<span>                                      @:+++++==-::+%*#%%%%@%*-=#@@@@@%*==: :</span>
-<span>                                        +====:.:==:  .=+=-:=*=::+******+=  #</span>
-<span>                                          ==:               .==::++====+: :</span>
-<span>                                           ==   ..::::::. ..     .=----===</span>
-<span>                                            =:-++=======-:..     :-::-=-*</span>
-<span>                                             -**+==-:.::--====::-=----:.=</span>
-<span>                                              ==****=---=++===-:--=-.+*</span>
-<span>                                               ===+*****++==-:.:::. :%-</span>
-<span>                                                :-======-=-::::.. =:=*</span>
-<span>                                                   :::::: .    .: %:=:</span>
-<span>                                              --::.           :: =#.=   --</span>
-<span>                                            --:::::--:--:::.:::  %:.=  :+:.=--</span>
-<span>                                       *:   :---:::::--::..::.  *%  -  ==:.-==: =#</span>
-<span>                                 *: :=**=:   :--::::::...::.  .=**=:: .+=:.-=: -*+====*</span>
-<span>                           :.: .++.:==*===:   :--:::::::::.   -**+*:. :+=:.=: :+===+==+=+*=*%</span>
-<span>                      *: =*:.:. =+ +***=++=.   .:-:::::::.  ==%%+*+.: :==::- .+=-===+=:-==*%#=*##%%</span>
-<span>                 ==: -== :*: :. == **+=-:-+.     .....:.  .*-.=%%*= - -=-::. =---=:==:-=:*%*=*%%%%#%-</span>
-<span>            ===*=.:=:.==..*: .: -+ :      =+- +:         :=%   :*#%=:.==-:: :-:-=---::-=**+==%%%#+=#%%</span>
-<span>       #***+***=*+::=::=: +: :: :+ .:      =+:=*=:.    .:=*:      :=::=-::: :::--::::-+#*==*%%%%*#%%%%+</span>
-<span>    +=**:-**=::===*-.-.:: =: :. .=.=: .. .:  .:-=+*: .====     .   :=---::.::::-::::=**==*#%###%%%%*#*#=</span>
-<span>  ***+=**.:-+*=..:-+=:    =. ..  =-: ::::==  :::.  .-+=:. .::.:    :+=--:. ::::: .::.++=*%#**+-.       =+=:   .</span>
-<span>*****+=+*=:: :+*=---+*:  .=  ..  ==::-::-===::-==::-: .  .:-==  .  :=--:::-::-: :=:  +****=:.  ::::-:::  :==.</span>
-<span>****+*==+*-==: :=+***=+  :-  ..  ==:::-::==--: =:.=  .: .-===. ::: --:--::-::-: -:  =====:   -=====++*****+**:</span>
-<span>***++++==*+--==: :-:::=: ::   .  =-:::::-==:: := :=====:====: :::::--::-:::.::     -===:  .:=======-==+*****=*</span>
-<span>=+***++===++=-==: :-::=: :.      =-:::::==--:.:-.=-==-===-=: ::=-:--::::.:..::    :==:  ::-===--==+******+::-**</span>
-<span>-=+****=====*=--=. :-:-: :      .=-::::----:: :::===--=--=: ::-=::-::::.:: .:.    :=: .-----==+*****++**=:-+***+</span>
-<span>=--==-=+*=-:=+=-=-  :-:  :      .-:::::=--::: :::-==---:-- .::=----:::: :. .:     -= :==----=*+===::=*+--+******</span>
-<span>+=-==+-:::::::==-=.  ::  .      .-::::-=--::. .:------::=. :.:--=-::::  :  ::     -: ==------:::-==**++*********:</span>
-<span>===--=+=-::::::::-:  .           :::::--::..   :::::::::.  ..:::::..:  ..  :.     -. --:-:-===++==+*=::::::==++*+</span>
-<span>====--==+===-::::::              ::::::::...   ::.:.::::  .  ........      :      .. --::::-====-=*=::-=+*+====+++.</span>
-<span>=======-===+===-:::                .:::.  .   ::             ....  .      ..       . :--::::::::==::--=====++====++</span>
-<span>=======----===++==:                          ..    . .                    .           :::::::::==:::==============+=</span>
-<span>:::::....     ..:::                       ..:::--======-:....                        *=.:::..:=-:::===--=++=====+====:</span></pre>
-            <p class="portrait-note">generated from a photo<span class="hover-only"> · move your cursor over it</span></p>
+            <pre class="portrait" id="portrait" role="img" aria-label="A comic-style portrait of Kaustubh Tripathi drinking through a red straw, inked in braille dots from a photograph.">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⠤⠤⢖⢖⢖⠞⠝⠝⠝⠉⠉⠓⠒⠒⠒⠒⠦⠤⢤⣀⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡤⠖⠟⠍⠕⢅⠔⠅⠕⠅⠁⠄⠁⠅⠀⠄⠁⠅⠁⠅⠁⠁⠀⠄⠀⠉⠍⠉⠓⠲⢤⣀⣀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠞⢝⢄⢑⢅⢕⢕⠝⠑⠝⠅⠀⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠁⠁⠅⠕⠄⠄⠄⠌⠙⠶⢦⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠞⢉⢔⠔⠝⠕⠝⠅⠕⠀⠁⠄⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠄⠀⠅⠁⠅⠁⠅⠀⠅⠁⠁⠁⠄⠀⠀⠉⢗⢦⣀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⢠⢴⠅⠕⠄⠀⠅⠁⠄⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠄⠁⠄⠀⠈⠙⠶⡄
+⠀⠀⠀⠀⠀⠀⠀⣰⠟⠅⠐⢕⠍⠁⠀⠅⠀⠅⠁⠁⠁⠅⠁⠁⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠄⠀⠀⠙⢳⣀
+⠀⠀⠀⠀⠀⣠⠞⠅⠅⢠⠼⠕⠁⠅⠁⠅⠑⠁⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠔⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠀⠙<span class="straw">⠶⡄</span>
+⠀⠀⠀⠀⢠⠇⠕⠁⢰⠽⠁⠀⠀⠅⠁⠁⠔⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠅⠍⢳
+⠀⠀⠀⠀⡞⠁⢔⢔⠝⠀⠀⠄⠁⠁⠔⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠉⢳⡀
+⠀⠀⠀⢀⡇⢸⠍⠅⠀⠅⠁⠅⠁⠁⠕⠅⠁⠄⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠑⠅⠀⢷⡀
+⠀⠀⠀⠘⣖⠕⠀⠀⠀⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠅⠅⠁⠳⡄
+⠀⠀⠀⠀⢻⡀⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠅⠅⠅⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠁⠕⠄⠁⢧
+⠀⠀⠀⠀⠀⢧⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⢁⢅⢄⢅⠀⠄⠁⠁⠁⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠅⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠽⡄
+⠀⠀⠀⠀⠀⠈⠧⡅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⢔⢽⢽⢝⢽⢽⢽⢵⢔⢔⢔⢔⢕⢕⢕⢕⢕⢕⢅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⢧
+⠀⠀⠀⠀⠀⠀⠀⠙⣇⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⢅⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⢕⢕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⢘⡆
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣅⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠑⢅⢝⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⠕⠅⠕⠅⠅⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⢸
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣅⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⢕⢕⢝⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠅⢸
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⡅⠁⠁⠅⠁⠅⠁⠅⢕⢕⢝⢵⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠅⢸
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣗⣁⢀⢁⢔⢔⢔⢕⢽⢵⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢵⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠀⠅⢸⡄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⢿⣿⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠕⠅⠀⠁⠸⣷⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢸⣿⢿⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢕⢝⢕⠝⠅⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠅⠅⠁⠅⠁⠅⠕⠅⠕⠅⠀⢻<span class="straw">⢷</span>
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠘⣿⢿⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⠝⠙⠉⠁⠀⠅⠕⠅⠕⠅⠕⠄⠄⠄⠕⠅⠕⠅⢕⢅⢕⠅⠕⠅⠁⠅⠁⠅⠕⠅⠕⠅⠄⠀⢽⡄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⢿⢿⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢝⢝⠕⠍⠀⠀⠄⠁⠅⠁⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠝⠕⢝⢕⢕⠅⠕⠅⠑⠅⠕⠅⠕⠅⠅⠀⢸⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡀⢌⠟⠀⠐⠄⠀⠀⠉⠁⠙⠙⠝⠝⢝⢝⢝⢕⢝⠕⠕⠅⠄⠅⠁⠅⠁⠅⠁⠅⠁⠁⠁⠁⠁⠁⠑⠅⠕⠅⠕⠅⠕⠅⠕⠕⢝⢅⠕⠅⠑⠅⠕⠅⠕⠅⠕⠀⠀⢻
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⢕⢁⠀⠔⠄⠁⠅⠁⠅⠁⠅⠑⠅⠝⢕⢝⢕⢝⢅⠕⠅⠅⠅⠁⠅⠁⢄⢵⠄⠀⠁⠁⠀⠕⠅⠔⠅⠕⠅⠕⢅⢕⠅⠕⠅⠝⠅⠕⠅⠐⠅⠕⠅⠕⠅⠕⠀⠘⡼
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠑⢝⠅⠁⠅⠁⠅⠁⠅⠁⠁⠁⠅⠀⢑⢝⢕⢝⢕⠕⠅⠕⠅⠕⠅⠕⠅⠍⠍⠝⠄⠔⠅⠕⠅⠕⢅⢕⢕⢝⢕⢝⢕⢝⢕⢕⠅⠕⠅⠔⠅⠕⠅⠅⠅⠕⠀⠀⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠀⢽⠄⠀⢠⢼⢄⠀⠁⠁⠀⠕⠅⠕⠕⢽⢽⢽⢕⢝⢅⢕⢅⠕⠅⠕⠅⠕⠅⠑⠁⠑⢁⢁⢄⢕⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⠕⠅⠕⠅⠅⠀⠕⠅⠕⠀⢼⠁
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⢼⣅⠀⢽⠉⠑⠙⠅⠕⠅⠕⠁⢔⢕⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢵⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⠕⠕⠅⠕⠅⠕⠅⠕⠅⠕⢀⡽
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡇⢹⣿⠅⢹⢽⢔⠑⠁⢁⢁⢔⢵⢽⢽⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⢽⢽⢽⢽⢵⢽⢽⢽⢽⢽⢽⢝⢕⢝⢕⢝⢕⢝⠕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⢕⡞
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⢸⣿⠇⢸⢽⢽⢽⢵⢽⢵⢽⢽⠽⢽⢽⢽⢽⢽⢝⢕⢝⢕⠝⠕⢝⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢽⢝⢕⢝⢕⢝⠕⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⢕⣥⠟
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡌⣿⢷⢽⢽⢽⢽⢽⢽⢽⢽⠽⠀⢹⢽⢽⢽⢽⢽⢕⢝⢕⢕⢅⠄⠉⢽⢽⢽⢽⢽⢽⢽⢽⢽⢕⢝⢕⢝⢕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⢔⡵⠋⠁
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⢹⢿⢽⢽⢽⢽⢽⢽⢽⠽⠁⢼⢽⢽⢽⢽⢽⢽⢕⢝⢕⢝⢕⠕⠄⢸⢽⢽⢽⢽⢽⢽⢽⢝⢕⢝⢕⢝⢕⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⣽
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡀⢿⣽⢽⢽⢽⢽⢽⢽⢅⢀⢽⠝⢽⢽⢽⢽⢝⠕⠝⠅⠝⠅⠕⢅⢸⢽⢽⢽⢽⢽⢝⢕⢝⢕⢝⢕⢝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠈⢿⢼⢽⢽⢽⢽⢕⢝⢵⢽⢵⢴⢝⠝⠕⠕⠁⠁⠅⠕⠅⢕⢕⢝⢽⢝⢝⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⢽⠁
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣇⠸⢽⢽⢽⢝⢝⢕⢝⢕⢝⠝⠍⠁⠕⠅⠕⠅⠀⠅⠑⠅⠝⠕⠝⠕⠝⠅⠝⠕⢝⢕⢝⢕⢝⢕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠍⣇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡄⠸⢽⢽⢕⢝⢕⢝⠕⠝⠅⠁⠁⢀⢅⢑⠅⠔⠅⠁⠅⠕⠅⠕⠅⠕⠅⠁⠅⠐⢕⢝⢕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⢽⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢳⡀⠘⢝⢕⢝⢕⢝⠅⠐⠁⠔⠅⠝⠕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠁⠅⠅⠔⢕⢝⠕⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠧⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢳⡀⠙⢕⢝⢕⢝⢅⠑⠄⠕⠅⠀<span class="straw">⢄⢔⠅</span>⠕⠁⠁⠅⠁⠁⠀⠄⠕⢅⢕⢅⢕⢕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠍⠝⠖⠦⣄⣀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⡄⠀⠙⢕⢝⢕⢕⠅⢕⢕<span class="straw">⢜⢕⢝⠅⠕</span>⠁⢁⢅⢔⠅⠕⠅⢕⢕⢝⢕⢝⢕⠕⠅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠑⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠝⠗⢦⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⡅⠀⠑⢝⢕⢝⠕⢝⠕⢝<span class="straw">⢕⢝⠅⠅</span>⠀⢝⢕⠝⠅⠕⠅⢝⢕⢝⢕⢝⠕⠕⠅⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠑⠅⠕⠍⠗⢦⣀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣅⠄⠀⠑⢝⢕⢝⢅⢜<span class="straw">⢕⢝⠅⠅</span>⠀⠝⠅⠑⠁⢕⢕⢝⢕⢝⢕⠝⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠅⠅⠁⠅⠁⢀⢜⢕⢜⠗⢦⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⡁⠀⠘⢕⢝⢕⢝<span class="straw">⢅⢝⢕⠅</span>⠄⠄⠄⢄⢔⢽⢵⢝⢕⢝⢕⠕⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠅⠅⠁⠁⢀⢕⢝⢕⢝⢅⢕⢝⢷⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣅⠀⠄⠝⠀<span class="straw">⢝⢄⢝⢕⠕</span>⠅⠕⠅⠙⢽⢽⢝⠝⢕⠝⠅⠕⠅⠁⠅⠁⠅⠁⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⢑⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⠝⢷⢦⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⡄⠁⠁<span class="straw">⢝⢕⢝⢕⢕</span>⠅⠕⠅⠐⠕⢝⠕⠝⠅⠕⠅⠁⠅⠁⠅⠁⠅⠅⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⢕⢄⢕⢕⠕⢁⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⠅⢐⠌⠛⢷⣦⣀⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣇⢰<span class="straw">⢝⢐⢝⢕</span>⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠁⠄⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⢕⢕⢝⢕⢝⢕⢜⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⢐⢕⢅⢄⠔⠀⠉⠙⠲⣄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘<span class="straw">⢧⢁⢕⢝⢕⢕⢄</span>⠅⠁⠁⠁⠁⠁⠁⠅⠅⠄⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⠍⢔⢝⢕⢝⢕⢝⢔⢔⢕⢝⢜⢍⢷⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="straw">⠈⣟⢕⢝⢕⢝⢕⢝</span>⢕⢝⢕⢕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⢑⢕⢝⢕⢝⢵⢝⢕⢝⠕⠉⢕⢝⢕⢝⢕⢝⢕⢝⢕⢜⢕⢝⢕⢝⢕⠝⢕⢝⢕⢝⢕⢝⢕⢄⠉⠳⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="straw">⣟⠕⠝⢕⢝⢕⠝</span>⢕⢝⢕⢝⢕⢕⢅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⢁⢝⢕⢝⢕⢽⢝⢝⢕⠝⠅⢘⢕⢝⢕⢝⢕⢝⢕⠍⢐⢝⢕⢝⢕⢝⠕⢀⢕⢝⢕⢝⢕⢝⢄⢴⢼⢽⣿⢿⠷⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="straw">⡗⠁⠑⠑⠝⢕</span>⠀⢑⢝⢕⢝⢕⢝⢕⢕⢅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠁⢠⢵⢽⢵⢝⢕⢝⢕⢝⢕⠕⠁⢝⢕⢝⢕⢝⢕⢝⠅⢐⢕⢝⢕⢝⢕⠝⢁⢜⢕⢝⢕⢝⢕⠉⢀⢼⠝⠁⠐⠘⠽⢥⢽⢶⢤⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣿⣶⢶⣶<span class="straw">⢤</span>⣤⢤⣀⠉⠑⠝⢕⢝⢕⢝⢕⢝⢅⠕⠁⠕⠅⠕⠅⠕⠅⠅⢠⢴⢽⢽⢽⢽⢽⢝⢕⢝⢕⠉⢕⢍⢔⢝⢕⢝⢕⢝⢕⠉⢐⢝⢕⢝⢕⠝⠅⢕⢕⢝⢕⢝⢕⢝⢕⠜⢁⢄⢔⢜⠕⢕⢄⢄⠉⠙⠹⢷⣄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣠⢤⣴⢶⣶⢾⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣶⢦⣄⠈⠑⢝⢕⢽⢵⢽⢽⢴⢄⠑⠁⠕⠀⢸⢽⢽⢽⢽⢽⢽⢽⢝⢕⠝⠁⢀⢕⢝⢕⢝⢕⢝⢕⢝⠅⢐⢕⢝⢕⢝⢕⠕⢅⢝⢕⢝⢕⢝⢕⠝⢁⢔⢕⢝⢕⢝⢔⠝⠕⢉⢐⢝⢄⢄⢑
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣯⢭⣭⢭⣿⢽⣧⢼⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣿⢿⣿⢷⣦⠘⢽⢽⢽⢽⢽⢽⢽⠅⠀⠕⠅⠘⢽⢽⢽⢽⢽⢽⢕⢝⠕⠕⢀⢝⢕⢝⢕⢝⢕⢝⢕⠍⢀⢜⢕⢝⢕⢝⠅⢔⢕⢝⢕⢝⢕⢝⠕⢀⢔⢝⢕⢝⢕⢝⢕⢝⢔⠝⢑⢝⢕⢕⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢿⣿⢿⣿⢿⡿⠟⠛⠛⠛⠛⠛⢛⣋⢉⣉⢛⠛⠻⠿⠿⣿⢿⣿⢿⣿⢿⣷⢄⢹⢽⢽⢽⢽⢽⢽⢥⠁⠕⠅⠅⠀⠌⠁⠀⠀⠘⢕⢝⠅⢀⢔⢝⢕⢝⠕⢝⢕⠝⠁⢔⢕⢝⢕⢝⢕⢅⢔⢝⢕⢝⢕⢝⠕⢙⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢅⢜⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠟⠻<span class="straw">⢿</span>⣿⢿⣷⢶⣶⢿⠷⠶⢿⢿⣿⢿⣿⢿⣿⢷⣦⢤⣬⢩⢍⢙⠛⠿⣿⢿⣿⢽⢽⢽⢽⢽⢽⢽⠀⠑⠅⠀⠄⠅⠄⠁⠅⠀⢀⢝⢄⢝⢕⢝⢕⢝⢑⢝⠕⢁⢔⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢜⢕⢝⢕⢝⢕⢝⢕⢝⠕⢀⢔⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡴⠋⢹⠿<span class="straw">⠰⢿</span>⣿⠿⠿⠋⢀⢀⢀⢀⢀⠀⠈⠛⠛⠛⠿⠿⣿⢿⣿⢿⣿⢽⢌⢥⠬⢻⣿⢅⢹⢽⢽⢽⢽⢽⠄⠐⠄⠕⠁⠁⠅⠁⠁⢀⢕⢝⢕⢝⢕⢙⢕⢝⢕⠝⠁⢜⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⠝⢀⢜⢕⢝⢕⢝⢕⢝⠕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢞⠅⠀⣾⢧<span class="straw">⠼</span>⢿⢽⢥⢤⢴⢵⢽⢵⢽⢵⢝⢕⢔⢄⢄⠀⠀⠈⠙⢿⠿⣿⢿⣿⢿⡅⢠⢿⠿⢹⢽⢽⢽⠽⠉⠀⠕⠅⠀⠄⠁⠅⠁⢔⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⠀⢐⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⠕⠀⢔⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡴⢟⢝⠅⠀⣿<span class="straw">⠇⢀⢝⢝⠝</span>⠝⠙⠙⠙⠙⢽⢽⢽⢽⢽⢵⢝⢕⠕⠅⠄⠀⠹⣿⢿⣿⢿⡿⢨⢽⢴⢽⢽⠽⠉⠀⠀⠄⠁⠁⠁⠅⠁⠀⠘⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢄⢀⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢽⢕⠝⠁⢘⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡞⢁⢕⢝⠅⠀⣿⠀<span class="straw">⢐⢝⢕⢝⠔</span>⢵⢿⢶⣦⢤⣌⠙⠙⠹⢽⢽⢵⢝⢅⠕⠅⠄⠘⢿⣿⢿⢡⢼⢽⢽⠽⠉⠄⠔⠅⠑⠅⠀⠅⠁⠅⠁⠅⠁⠑⠙⠕⠝⠝⠹⠽⢽⢵⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢉⢕⢝⢕⢝⢕⢝⢕⢽⢽⢽⠕⠀⠀⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠅⢘⢕⢝⠅⠀⣿<span class="straw">⠄</span>⠀<span class="straw">⠙⠑⠙⢰</span>⢿⣾⢿⣿⢿⣿⢿⣷⢤⠀⢹⢽⢽⢕⢕⢅⠕⠄⠀⠹⢥⢼⢽⠽⠉⠀⠁⠁⠁⠅⠁⠅⠁⠅⠁⠅⠕⠅⠕⠅⠕⠄⠔⠄⠔⠀⠹⢝⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢽⢽⢽⢽⢝⠁⠀⢐⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⢝⢅⢘⠕⠉⢠⢾⣿⢷⠶⠽⠽⢽⢽⢍⠉⠉⠙⠛⢿⢿⣿⢿⣷⠀⢽⢽⢽⢝⢕⢕⠅⠄⠀⠉⠙⠉⠀⠀⠄⠁⠅⠁⠅⠕⠅⠁⠀⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠄⠅⠁⢙⢕⢝⢕⢝⢕⢝⢽⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢽⢽⢽⢽⢽⠍⠀⠀⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⠀⠀⡞⢔⢝⠕⠉⢀⢶⠟⢁⢼⢽⢴⢼⢴⢽⢝⢝⢕⠕⠄⠄⠀⠈⠙⠿⣿⢷⣈⠹⢽⢽⢵⢝⢕⢕⠅⠄⠅⠀⠅⠁⠅⠕⠅⠕⠅⠕⠁⠐⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠀⢘⢕⢝⢕⢽⢵⢽⢝⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢽⢽⢽⢽⢕⠁⠀⢐⢕⢝⢕⢝⢕⢝⢕⢝⢕⢜⢕
+⠀⠀⠀⠀⠀⠀⠀⣸⠁⢑⢝⢅⠀⢼⢭⢤⢽⢽⢽⢽⢽⢽⢽⢽⢽⢕⢝⢕⢕⢅⢕⠄⠀⠈⠙⠻⢤⢸⢽⢽⢽⢕⢝⢅⠕⠅⠅⠅⠀⠅⠕⠅⠕⠅⠁⠄⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠁⢔⢕⢝⢕⢝⢽⢽⢝⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢽⢽⢽⢽⢝⠅⠁⢀⢜⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⠀⢠⠇⠀⢕⢝⢕⢄⢐⠙⢅⢄⠄<span class="straw">⠙⢽</span>⢽⢝⠝⠽⢽⢽⢽⢵⢝⢕⢝⢕⢕⠅⠄⠄⠀⠉⠙⠹⢽⢝⢝⢕⢕⠅⠕⠅⠕⠅⠕⠅⠁⠀⠔⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠀⢝⢕⢽⢵⢽⢽⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢵⢽⢽⢽⢽⢝⠁⠀⢐⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⢀⣞⠁⠀⠕⢝⢕⢝⢕⠀⢵⢽<span class="straw">⠁⢜⢕⠍⢐⢴</span>⢤⢀⡉⠙⢽⢽⢽⢽⢕⢝⢕⢕⢅⠕⠅⠔⠄⠜⠕⠝⠕⠝⠅⠕⠅⠕⠅⠕⠁⠀⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠅⠄⠙⢽⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢽⢽⢽⢽⢕⠝⠀⠀⢔⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⠀⣸⢝⠀⠕⠅⠝⠕⠙⢁⢀⣤⢿<span class="straw">⣄⢀⢄⢕⠔⠉</span>⠹⠿⣿⢶⣄⠈⠙⠽⢽⢽⢵⢝⢕⢝⢕⢕⢅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠀⠕⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠄⠈⢽⢽⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢽⢽⢽⢝⢕⠅⠁⢀⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⢠⠇⢝⠄⠕⠅⠁⢡⢾⠿⢿⠟⠋⢻⢽⢝⢝⢕⢄⢄⢀⠀⠉⠙⠛⢂⢄⠉⢹⢽⢽⢵⢝⢕⢝⢕⢝⢅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠄⠘⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢽⢽⢽⢝⢝⢕⠁⠀⢘⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⠀⡞⠀⠕⠀⠕⠅⠀⢽⢍⢸⢽⢵⢽⢽⢽⢕⢝⢕⢝⢕⢝⢕⢝⢕⢄⢀⢉⢕⢝⢝⢽⢽⢽⢕⢝⢕⢝⢕⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠀⢑⢝⢕⢽⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢵⢽⢽⢝⢕⢝⠕⠀⠀⢘⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⢠⠇⠀⠕⠅⠕⠅⠅⢔⢝⠉⢙⠙⠙⠙⠝⠕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⠕⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠁⠅⠁⠀⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢽⢽⢽⢝⢝⢕⢝⠅⠀⠀⢜⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕
+⠀⠀⠀⡞⠕⠄⠕⠅⠕⠅⠕⠀⢍⢀⢹⠝⠙⢶<span class="straw">⢦⣤</span>⠀⢄⠉⢑⢝⢵⢽⢵⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⠝⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠕⠅⠅⠅⠁⠅⠁⠅⠀⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢽⢽⢝⢕⢝⢕⢝⠀⠀⢔⢝⢕⢝⢕⢝⢕⢝⢕⢝⢕⢝⠅⠝⠅</pre>
+            <p class="portrait-note">inked in braille, from a photo</p>
           </div>
 
           <div class="hero-text">
@@ -289,7 +308,7 @@
                 <p class="plinks">
                   <a href="https://cybercrime-assistant.vercel.app" target="_blank" rel="noreferrer">visit ↗</a>
                   <a href="https://github.com/ashusnapx/hackathon" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/kavach/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/kavach" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -322,7 +341,7 @@
                 </ul>
                 <p class="plinks">
                   <a href="https://github.com/ktripathi2281/DeepResearch" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/deepresearch/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/deepresearch" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -356,7 +375,7 @@
                 </ul>
                 <p class="plinks">
                   <a href="https://github.com/ktripathi2281/LoopDetector" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/loopdetector/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/loopdetector" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -387,7 +406,7 @@
                 </ul>
                 <p class="plinks">
                   <a href="https://github.com/ktripathi2281/Leetcode-Tracker" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/leetcode/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/leetcode" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -421,7 +440,7 @@ settle the actual cost</pre>
                 </ul>
                 <p class="plinks">
                   <a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/tollgate/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/tollgate" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -453,7 +472,7 @@ settle the actual cost</pre>
                 <p class="plinks">
                   <a href="https://ride-radar-sand.vercel.app/" target="_blank" rel="noreferrer">visit ↗</a>
                   <a href="https://github.com/ktripathi2281/RideRadar" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/rideradar/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/rideradar" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -487,7 +506,7 @@ them: teach B, want A
                 <p class="plinks">
                   <a href="https://skill-barter-psi.vercel.app/" target="_blank" rel="noreferrer">visit ↗</a>
                   <a href="https://github.com/ktripathi2281/Skill-Barter" target="_blank" rel="noreferrer">source ↗</a>
-                  <a href="https://kauswhynot.vercel.app/essays/skillbarter/" target="_blank" rel="noreferrer">essay ↗</a>
+                  <a href="#vi/skillbarter" title="Opens in the editor">essay</a>
                 </p>
               </div>
             </details>
@@ -571,15 +590,15 @@ them: teach B, want A
         <!-- writing -->
         <section class="block" id="writing" aria-labelledby="writing-cmd">
           <h2 class="cmd" id="writing-cmd"><span class="ps">$</span> ls ~/writing</h2>
-          <p class="hint">one essay per project, on <a href="https://kauswhynot.vercel.app/" target="_blank" rel="noreferrer">kauswhynot.vercel.app ↗</a></p>
+          <p class="hint">one essay per project · each opens in the editor</p>
           <ol class="essays">
-            <li><a href="https://kauswhynot.vercel.app/essays/kavach/" target="_blank" rel="noreferrer"><span class="no">I</span><span class="et">Confidently wrong</span><span class="es">Building an AI assistant a fraud victim can rely on at 2 a.m.</span></a></li>
-            <li><a href="https://kauswhynot.vercel.app/essays/leetcode/" target="_blank" rel="noreferrer"><span class="no">II</span><span class="et">Show your work</span><span class="es">An AI study coach with a small world, a strict examiner and a paper trail.</span></a></li>
-            <li><a href="https://kauswhynot.vercel.app/essays/deepresearch/" target="_blank" rel="noreferrer"><span class="no">III</span><span class="et">Pointing is not proving</span><span class="es">A research system that checks its own citations, and says so when it can't.</span></a></li>
-            <li><a href="https://kauswhynot.vercel.app/essays/loopdetector/" target="_blank" rel="noreferrer"><span class="no">IV</span><span class="et">The same failure, again</span><span class="es">Noticing when a coding agent is stuck, without asking another model.</span></a></li>
-            <li><a href="https://kauswhynot.vercel.app/essays/tollgate/" target="_blank" rel="noreferrer"><span class="no">V</span><span class="et">The commit point</span><span class="es">An LLM gateway in Go, built the way payment systems are.</span></a></li>
-            <li><a href="https://kauswhynot.vercel.app/essays/rideradar/" target="_blank" rel="noreferrer"><span class="no">VI</span><span class="et">Where is everyone?</span><span class="es">A live map for a group ride, and what to show when a rider goes quiet.</span></a></li>
-            <li><a href="https://kauswhynot.vercel.app/essays/skillbarter/" target="_blank" rel="noreferrer"><span class="no">VII</span><span class="et">A double coincidence of wants</span><span class="es">Trading skills without money, and the oldest problem with barter.</span></a></li>
+            <li><a href="#vi/kavach"><span class="no">I</span><span class="et">Confidently wrong</span><span class="es">Building an AI assistant a fraud victim can rely on at 2 a.m.</span></a></li>
+            <li><a href="#vi/leetcode"><span class="no">II</span><span class="et">Show your work</span><span class="es">An AI study coach with a small world, a strict examiner and a paper trail.</span></a></li>
+            <li><a href="#vi/deepresearch"><span class="no">III</span><span class="et">Pointing is not proving</span><span class="es">A research system that checks its own citations, and says so when it can't.</span></a></li>
+            <li><a href="#vi/loopdetector"><span class="no">IV</span><span class="et">The same failure, again</span><span class="es">Noticing when a coding agent is stuck, without asking another model.</span></a></li>
+            <li><a href="#vi/tollgate"><span class="no">V</span><span class="et">The commit point</span><span class="es">An LLM gateway in Go, built the way payment systems are.</span></a></li>
+            <li><a href="#vi/rideradar"><span class="no">VI</span><span class="et">Where is everyone?</span><span class="es">A live map for a group ride, and what to show when a rider goes quiet.</span></a></li>
+            <li><a href="#vi/skillbarter"><span class="no">VII</span><span class="et">A double coincidence of wants</span><span class="es">Trading skills without money, and the oldest problem with barter.</span></a></li>
           </ol>
         </section>
 
@@ -618,22 +637,44 @@ them: teach B, want A
 
       <footer class="foot">
         <p>© 2026 Kaustubh Tripathi · plain HTML, CSS and JavaScript · <a href="https://github.com/ktripathi2281/plotting-table/tree/redesign/terminal" target="_blank" rel="noreferrer">source ↗</a></p>
-        <p><kbd>:</kbd> commands · <kbd>j</kbd>/<kbd>k</kbd> sections</p>
+        <p><kbd>:</kbd> commands</p>
       </footer>
 
       <!-- vim's status line and command line, along the bottom of the screen -->
+      <!-- The essays, opened over the page as a second buffer: :vi <project>, or an essay link. -->
+      <section class="reader" id="reader" aria-label="Essay" hidden>
+        <div class="reader-bar">
+          <nav class="reader-tabs" id="reader-tabs" aria-label="Essays"></nav>
+          <button type="button" class="reader-close" id="reader-close" aria-label="Close the essay">:q</button>
+        </div>
+        <div class="reader-buffer" id="reader-buffer" tabindex="0"></div>
+      </section>
+
       <div class="term-out" id="term-out" role="log" aria-live="polite" hidden></div>
+      <div class="palette" id="palette" role="listbox" aria-label="Commands" hidden></div>
       <div class="statusbar" id="statusbar">
         <span class="sb-mode" id="sb-mode">NORMAL</span>
-        <span class="sb-file" id="sb-file">~/kaustubh/whoami.md</span>
+        <span class="sb-file" id="sb-file" aria-live="polite">~/kaustubh/whoami.md</span>
+        <span class="sb-showcmd" id="sb-showcmd" aria-hidden="true"></span>
+        <span class="sb-pos" id="sb-pos" hidden></span>
         <span class="sb-open"><span class="dot" aria-hidden="true"></span> open to work</span>
         <span class="sb-clock" id="sb-clock">IST</span>
-        <button type="button" class="sb-cmd" id="sb-cmd" aria-label="Open the command line">:</button>
+        <button type="button" class="sb-cmd" id="sb-cmd"><b>:</b> commands</button>
         <form class="sb-input" id="sb-input" hidden>
           <label for="cmd-input" class="visually-hidden">Command</label>
-          <span aria-hidden="true">:</span><input id="cmd-input" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" />
+          <span id="cmd-prompt" aria-hidden="true">:</span><input id="cmd-input" role="combobox" aria-controls="palette" aria-autocomplete="list" aria-expanded="false" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" />
         </form>
       </div>
+    </div>
+
+    <!-- Where :q leaves you. vim (or exit) goes back in. -->
+    <div class="shell" id="shell" hidden>
+      <pre class="shell-log" id="shell-log"></pre>
+      <form class="shell-line" id="shell-form">
+        <span class="ps">kaustubh@bangalore</span> ~ %
+        <label for="shell-input" class="visually-hidden">Shell</label>
+        <input id="shell-input" placeholder="vim" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" />
+      </form>
     </div>
   </body>
 </html>
