@@ -108,9 +108,9 @@
               that hold their shape when the model doesn't.
             </p>
             <p class="building">
-              <span class="tri" aria-hidden="true">▸</span> building
+              <span class="tri" aria-hidden="true">▸</span> just built
               <a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer">tollgate</a>
-              <span class="dim">— an LLM gateway in Go, with payments-grade spend control</span>
+              <span class="dim">— an LLM gateway in Go, with budgets that hold and settle like card payments</span>
             </p>
 
             <ul class="chips" aria-label="Stack">
@@ -341,27 +341,29 @@
                 <span class="perm">drwxr-xr-x</span>
                 <span class="pname">tollgate/</span>
                 <span class="ptype">LLM gateway in Go</span>
-                <span class="badges"><span class="badge badge--wip">in progress</span></span>
+                <span class="badges"></span>
               </summary>
               <div class="proj-body">
-                <p>An OpenAI-compatible LLM gateway in Go with payments-grade spend control.</p>
+                <p>An OpenAI-compatible LLM gateway in Go. Point any OpenAI SDK at it: it checks a virtual key, enforces its rate limits and budget, routes the call with retries and fallback, streams the answer and records what it cost. Built and tested end to end against a mock provider; a run with a live provider key is next.</p>
                 <pre class="diagram" aria-label="How Tollgate works">client · any OpenAI SDK
    │  POST /v1/chat/completions
    ▼
-rate limit per key
-   │
-hold budget ── integer micro-USD
-   │
-provider ══ SSE ══► client
-   │  first-token · idle · total
-   │  timeouts
+virtual key ─► rate limits ─► idempotency
+                                  │
+   ┌──────────────────────────────┘
    ▼
-settle the actual cost</pre>
-                <p class="pstack"><span>stack</span> Go · an OpenAI-compatible HTTP API</p>
+hold the worst case, in micro-USD
+   │
+   ▼
+router ─► OpenAI-compatible · Anthropic
+   │      retries, fallback, breakers
+   ▼
+settle the actual cost, store, respond</pre>
+                <p class="pstack"><span>stack</span> Go, PostgreSQL (pgx, sqlc), Prometheus, Docker · OpenAI-compatible and Anthropic APIs on raw net/http</p>
                 <ul class="points">
-                  <li>Designed for per-key rate limits and hold-and-settle budgets in integer micro-USD.</li>
-                  <li>Built so far: chat completions streamed over SSE, with first-token, idle and total timeouts.</li>
-                  <li>Next: real providers, with retries, fallback and circuit breakers.</li>
+                  <li>Budgets work like card payments: hold the worst case, settle the actual cost, release on failure. 200 concurrent requests against a budget that fits exactly 37 holds: exactly 37 succeed.</li>
+                  <li>Idempotency keys replay a stored response, streams included, and the outcome is saved before the client sees it, so a retry is never charged twice.</li>
+                  <li>About 1.5 ms of overhead at the median, measured against a mock upstream; a benchmark found a lock bottleneck, and single-statement holds lifted a key's cap from 215 to 300 requests a second.</li>
                 </ul>
                 <p class="plinks">
                   <a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer">source ↗</a>

@@ -3,18 +3,18 @@ number: V
 title: The commit point
 subtitle: An LLM gateway in Go, built the way payment systems are.
 project: Tollgate
-status: In progress
+status: Built; a run against a live provider is next
 ---
 
 # The commit point
 
 *An LLM gateway in Go, built the way payment systems are.*
 
-Tollgate sits between applications and the companies that serve language models. An application points any OpenAI client library at Tollgate instead of at OpenAI. When it is finished, Tollgate will check the caller’s key, enforce its rate limits and its spending budget, send the request to a provider with retries and fallback, stream the answer back, and record what it cost.
+Tollgate sits between applications and the companies that serve language models. An application points any OpenAI client library at Tollgate instead of at OpenAI. Tollgate checks the caller’s key, enforces its rate limits and its spending budget, sends the request to a provider with retries and fallback, streams the answer back, and records what it cost.
 
 As a project it has two jobs. One is production-grade Go: concurrency, streaming, cancellation and shutdown, done properly. The other is to bring the reliability patterns of payment systems to model traffic: idempotency keys, holds that settle, and a reconciliation check. It isn’t trying to compete with the gateways that already exist. Correctness, tests and measured performance come before features, and every decision that isn’t obvious is written down, with the alternatives it beat.
 
-It is a work in progress. Three milestones are done: the server and its configuration, chat completions through a mock provider, and streaming. The money is designed but not yet built. This essay is about the streaming, which is the core of the Go work, and about the design for the money.
+All eight milestones are built, from the server and streaming to the money, the observability and the benchmarks. It runs end to end against a mock provider; what’s left is a run against a real provider with a live key. This essay is about the streaming, which is the core of the Go work, and about the money.
 
 ## The point of no return
 
@@ -48,15 +48,23 @@ The timing tests run on a fake clock, using Go’s `testing/synctest` over an in
 
 ## Money is an integer
 
-The budget design comes from card payments. Before calling a provider, Tollgate will place a hold for the worst-case cost of the request, in the same database transaction that checks the budget. If the hold doesn’t fit, the request gets a 402 and the provider is never called. After the response, the hold is settled at the actual cost, or released if nothing was used. A background job releases holds that are too old, the way an unused card authorisation expires.
+The budget design comes from card payments. Before calling a provider, Tollgate places a hold for the worst-case cost of the request, in the same database statement that checks the budget. If the hold doesn’t fit, the request gets a 402 and the provider is never called. After the response, the hold is settled at the actual cost, or released if nothing was used. A background job releases holds that are too old, the way an unused card authorisation expires.
 
 Money is a whole number of micro-dollars, with no floating point anywhere near prices, costs or budgets. Prices are parsed from decimal strings, and costs round up.
 
 The worst case has to be a real upper bound, which rules out the usual estimate of four characters per token. In Chinese or Japanese one character is often a whole token or more, so a hold based on that estimate could be exceeded. Tollgate bounds the input by its size in bytes instead, because a byte-level tokenizer never produces more tokens than bytes. For English input, that holds about four times what it will cost, which only matters close to the end of a budget, the way a fuel pump authorises more than the fill. Settling always records the actual cost, even when it goes over the budget: the tokens were used, so they are owed.
 
-The order of operations matters too. Writing the response first and recording the outcome second leaves a window: a crash in between, and a retry with the same idempotency key calls the provider again, so the request is paid for twice. For non-streaming requests, Tollgate will record the outcome first, at the cost of a few milliseconds before the client sees anything.
+The order of operations matters too. Writing the response first and recording the outcome second leaves a window: a crash in between, and a retry with the same idempotency key calls the provider again, so the request is paid for twice. So Tollgate records the outcome first: before the response for a non-streaming request, and before the final `[DONE]` for a stream.
 
-Four invariants are written down for the money, and the tests will assert all four. A `tollgate reconcile` command will check the stored totals against the holds behind them.
+Four invariants are written down for the money, and the tests assert all four. One sends 200 requests at once against a budget that fits exactly 37 holds, keeps the mock provider waiting until every request has been admitted or turned away, and expects exactly 37 to succeed. `tollgate reconcile` checks the stored totals against the holds behind them, and exits with a failure if they don’t match.
+
+## What the benchmark found
+
+The first full benchmark capped a budgeted key at 215 requests a second, whatever the concurrency. The CPU profile showed nothing, because the gateway was waiting, not working. Every hold and settle for a key updates the same row, and each was a transaction of several statements, so the row stayed locked across network round trips while the key’s other requests queued for it.
+
+Making each operation a single statement, with a data-modifying CTE, holds the lock only while Postgres runs it. That raised the cap to about 300 requests a second, and cut the overhead at the median from 73 milliseconds to 8. What still limits one key is the disk: a commit waits for the write-ahead log to be flushed, and each budgeted request commits on its key’s row twice. Turning that wait off would lift the cap and could lose recorded spend in a crash, so it stays on. Different keys don’t contend.
+
+Without a budget, the gateway adds about 1.5 milliseconds at the median. That was measured against a mock provider on one laptop, so it is the gateway’s own cost and says nothing about any real provider.
 
 ## What it’s teaching me
 
@@ -66,7 +74,9 @@ Four invariants are written down for the money, and the tests will assert all fo
 
 **An estimate isn’t a bound.** Anything that guards money has to hold in every language, not just on average.
 
-Next come the real providers: OpenAI-compatible and Anthropic adapters, with retries, fallback and a circuit breaker for each model. Then the keys and rate limits, and then the money, with a test that sends 200 requests at once against a budget that fits exactly some number of holds, and expects exactly that many to succeed.
+**A quiet profile can still hide the bottleneck.** The CPU had nothing to say; the time went to waiting for a lock.
+
+Since the first draft of this essay, the rest has been built: OpenAI-compatible and Anthropic adapters on raw `net/http`, with no provider SDKs; retries, fallback and a circuit breaker for each target; virtual keys and rate limits; the money; request logs and Prometheus metrics. Next is a run against a real provider with a live key, and a hosted demo.
 
 ---
 
