@@ -344,24 +344,26 @@
                 <span class="badges"><span class="badge badge--wip">in progress</span></span>
               </summary>
               <div class="proj-body">
-                <p>An OpenAI-compatible LLM gateway in Go with payments-grade spend control.</p>
+                <p>An OpenAI-compatible LLM gateway in Go with payments-grade spend control. Point any OpenAI SDK at it: it checks a virtual key, enforces its rate limits and budget, routes the call with retries and fallback, streams the answer and records what it cost.</p>
                 <pre class="diagram" aria-label="How Tollgate works">client · any OpenAI SDK
    │  POST /v1/chat/completions
    ▼
-rate limit per key
-   │
-hold budget ── integer micro-USD
-   │
-provider ══ SSE ══► client
-   │  first-token · idle · total
-   │  timeouts
+virtual key ─► rate limits ─► idempotency
+                                  │
+   ┌──────────────────────────────┘
    ▼
-settle the actual cost</pre>
-                <p class="pstack"><span>stack</span> Go · an OpenAI-compatible HTTP API</p>
+hold the worst case, in micro-USD
+   │
+   ▼
+router ─► OpenAI-compatible · Anthropic
+   │      retries, fallback, breakers
+   ▼
+settle the actual cost, store, respond</pre>
+                <p class="pstack"><span>stack</span> Go, PostgreSQL (pgx, sqlc), Prometheus, Docker · OpenAI-compatible and Anthropic APIs on raw net/http</p>
                 <ul class="points">
-                  <li>Designed for per-key rate limits and hold-and-settle budgets in integer micro-USD.</li>
-                  <li>Built so far: chat completions streamed over SSE, with first-token, idle and total timeouts.</li>
-                  <li>Next: real providers, with retries, fallback and circuit breakers.</li>
+                  <li>Done: OpenAI-compatible and Anthropic adapters, with retries, fallback and a circuit breaker per target, and streaming with a commit point.</li>
+                  <li>Done: hold-and-settle budgets in integer micro-USD, idempotency keys and reconciliation. 200 concurrent requests against a budget that fits exactly 37 holds: exactly 37 succeed.</li>
+                  <li>Benchmarked against a mock upstream: about 1.5 ms of overhead at the median. Next: a run with a live provider key, then a hosted demo.</li>
                 </ul>
                 <p class="plinks">
                   <a href="https://github.com/ktripathi2281/tollgate" target="_blank" rel="noreferrer">source ↗</a>
